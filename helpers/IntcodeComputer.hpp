@@ -108,8 +108,7 @@ public:
                     ip += parameters.size()+1;
                     break;
             }
-            show(29, 36, ip);
-
+            show(ip);
         }
 
         return result();

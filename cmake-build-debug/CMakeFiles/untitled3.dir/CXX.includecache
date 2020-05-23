@@ -6,15 +6,11 @@
 
 #IncludeRegexTransform: 
 
-C:/Users/mickl/ClionProjects/untitled3/Solution.hpp
-fstream
--
-cassert
--
-helpers/IntcodeComputer.hpp
-C:/Users/mickl/ClionProjects/untitled3/helpers/IntcodeComputer.hpp
-
 C:/Users/mickl/ClionProjects/untitled3/helpers/IntcodeComputer.cpp
+iomanip
+-
+windows.h
+-
 IntcodeComputer.hpp
 C:/Users/mickl/ClionProjects/untitled3/helpers/IntcodeComputer.hpp
 
@@ -23,16 +19,4 @@ vector
 -
 iostream
 -
-
-C:/Users/mickl/ClionProjects/untitled3/main.cpp
-tests/Test.hpp
-C:/Users/mickl/ClionProjects/untitled3/tests/Test.hpp
-
-C:/Users/mickl/ClionProjects/untitled3/tests/Test.hpp
-iostream
--
-vector
--
-../Solution.hpp
-C:/Users/mickl/ClionProjects/untitled3/Solution.hpp
 
