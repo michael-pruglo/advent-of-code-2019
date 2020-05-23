@@ -17,7 +17,8 @@ class IntcodeComputer
     std::vector<int>    memo,
                         startingState;
     const int           TERMINATE = -1;
-    const int           INPUT = 5;
+    int                 INPUT;
+    int                 lastOutput = -1;
 
     struct Instruction
     {
@@ -59,7 +60,7 @@ private:
 public:
     void                show(Address highlight = -1, std::ostream& os = std::cout) const;
     void                show(Address startAdress, Address endAdress, Address highlight = -1, std::ostream& os = std::cout) const;
-    void                output(Address ip, int val, std::ostream& os = std::cout) const;
+    void                output(Address ip, int val, std::ostream& os = std::cout);
     inline int          get(Address address) const
     {
         return memo[address];
@@ -67,7 +68,7 @@ public:
     inline int          set(Address address, int val) { memo[address] = val; }
     inline int          result() const
     {
-        return get(0);
+        return lastOutput==-1 ? get(0) : lastOutput;
     }
     inline int          size() const
     {

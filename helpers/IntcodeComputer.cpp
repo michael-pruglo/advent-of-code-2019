@@ -1,6 +1,7 @@
 //
 // Created by Michael on 05/22/20.
 //
+//#define VERBOSE
 
 #include <iomanip>
 #include <windows.h>
@@ -42,9 +43,18 @@ IntcodeComputer::IntcodeComputer(std::istream& is)
 
 void IntcodeComputer::readf(std::istream& is)
 {
-    int i;
-    for (char comma; is>>i; is>>comma)
+    char comma;
+    for (int i; is>>i; is>>comma)
         memo.push_back(i);
+    if (comma=='>')
+    {
+        INPUT = memo.back();
+        memo.pop_back();
+    }
+#ifdef VERBOSE
+    std::cout<<"INPUT = "<<INPUT<<" "<<comma<<"\n";
+    show();
+#endif
 }
 
 enum Color
@@ -96,10 +106,12 @@ void IntcodeComputer::show(Address startAdress, Address endAdress,
     changeColor();
 }
 
-void IntcodeComputer::output(Address ip, int val, std::ostream& os) const
+void IntcodeComputer::output(Address ip, int val, std::ostream& os)
 {
     changeColor(BLACK, GREEN);
     std::cout << "@" << ip << " output: " << val << "\n";
+    lastOutput = val;
+    changeColor();
 }
 
 void IntcodeComputer::reset()
@@ -115,9 +127,11 @@ void IntcodeComputer::init(int noun, int verb)
 
 IntcodeComputer::Address IntcodeComputer::executeInstruction(IntcodeComputer::Instruction instruction, IntcodeComputer::Address ip)
 {
-    //std::cout<< "execute "<<instruction.opcode<<"(";
-    //for (auto x: instruction.parameters) std::cout<<x<<",";
-    //std::cout<<")\n";
+#ifdef VERBOSE
+    std::cout<< "execute "<<instruction.opcode<<"(";
+    for (auto x: instruction.parameters) std::cout<<x<<",";
+    std::cout<<")\n";
+#endif
     switch (instruction.opcode) {
         case 99:
             return TERMINATE;
@@ -147,12 +161,14 @@ IntcodeComputer::Address IntcodeComputer::executeInstruction(IntcodeComputer::In
 
         case 7: //less than - evaluate and write to address
         case 8: //equals - evaluate and write to address
-            set(instruction.param(2), instruction.opcode==7 ?
+            set(instruction.paramWithoutMode(2), instruction.opcode==7 ?
                                               instruction.param(0) < instruction.param(1) :
                                               instruction.param(0) == instruction.param(1));
             break;
     }
-    //show(ip);
+#ifdef VERBOSE
+    show(ip);
+#endif
 
     Address newIp = ip + Instruction::paramNo.at(instruction.opcode)+1;
     return newIp;

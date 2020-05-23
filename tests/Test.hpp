@@ -26,7 +26,7 @@ public:
         {
             Solution sol;
             auto result = sol.run(fileName);
-            std::cout<<"test #"<<i++<<" ";
+            std::cout<<"test \""<<fileName<<"\" ";
             if (test(expected, result))
                 std::cout<<" passed\n";
             else

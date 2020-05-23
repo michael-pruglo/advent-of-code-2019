@@ -6,12 +6,12 @@
 
 #IncludeRegexTransform: 
 
-C:/Users/mickl/ClionProjects/untitled3/helpers/IntcodeComputer.cpp
-iomanip
+C:/Users/mickl/ClionProjects/untitled3/Solution.hpp
+fstream
 -
-windows.h
+cassert
 -
-IntcodeComputer.hpp
+helpers/IntcodeComputer.hpp
 C:/Users/mickl/ClionProjects/untitled3/helpers/IntcodeComputer.hpp
 
 C:/Users/mickl/ClionProjects/untitled3/helpers/IntcodeComputer.hpp
@@ -23,4 +23,16 @@ unordered_map
 -
 cmath
 -
+
+C:/Users/mickl/ClionProjects/untitled3/main.cpp
+tests/Test.hpp
+C:/Users/mickl/ClionProjects/untitled3/tests/Test.hpp
+
+C:/Users/mickl/ClionProjects/untitled3/tests/Test.hpp
+iostream
+-
+vector
+-
+../Solution.hpp
+C:/Users/mickl/ClionProjects/untitled3/Solution.hpp
 
