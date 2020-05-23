@@ -9,6 +9,7 @@
 #include <vector>
 #include <iostream>
 #include <unordered_map>
+#include <cmath>
 
 class IntcodeComputer
 {
@@ -29,12 +30,17 @@ class IntcodeComputer
 
         Instruction(IntcodeComputer& ic, Address ip) : ic(ic)
         {
-            auto [op, pm] = parseValue(ic.memo[ip]);
+            auto [op, pm] = parseValue(ic.get(ip));
             opcode = op;
             paramModes = pm;
-            parameters = getParameters(ip+1, Instruction::paramNo.at(opcode), paramModes);
+            parameters.resize(paramNo.at(opcode));
+            std::copy(ic.memo.begin()+ip+1, ic.memo.begin()+ip+1+paramNo.at(opcode), parameters.begin());
+            //parameters = getParameters(ip+1, Instruction::paramNo.at(opcode), paramModes);
         }
-        std::vector<int> getParameters(Address ip, int n, Modes paramModes);
+        inline int param(int i) { return paramModes/int(std::pow(10, i))%10 ?
+                                            parameters[i] :
+                                            ic.get(parameters[i]);}
+        inline int paramWithoutMode(int i) { return parameters[i]; }
 
         static const std::unordered_map<Opcode, int> paramNo;
         static bool isInstruction(int value);
@@ -58,6 +64,7 @@ public:
     {
         return memo[address];
     }
+    inline int          set(Address address, int val) { memo[address] = val; }
     inline int          result() const
     {
         return get(0);
@@ -74,7 +81,7 @@ public:
     {
         for (int ip = 0; ip < memo.size() && ip != TERMINATE; )
         {
-            if (Instruction::isInstruction(memo[ip]))
+            if (Instruction::isInstruction(get(ip)))
                 ip = executeInstruction(Instruction(*this, ip), ip);
             else
                 ++ip;

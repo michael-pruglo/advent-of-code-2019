@@ -34,23 +34,6 @@ std::pair<IntcodeComputer::Instruction::Opcode,
     return std::make_pair(opcode, paramModes);
 }
 
-std::vector<int> IntcodeComputer::Instruction::getParameters(IntcodeComputer::Address ip, int n,
-                                                             IntcodeComputer::Instruction::Modes paramModes)
-{
-    //TODO: broken. operator "1" shouldn't take the third argumant like this
-    std::cout<<"get params "<<ip<<" "<<n<<" "<<paramModes<<"\n";
-    std::vector<int> res(n);
-    for (auto x: res) std::cout<<x<<"||"; std::cout<<"\n";
-    for (int i = 0; i < n; ++i)
-    {
-        res[i] = paramModes%10 ? ic.memo[ip+1] : ic.memo[ic.memo[ip+1]];
-        paramModes /= 10;
-        for (auto x: res) std::cout<<x<<"||"; std::cout<<"\n";
-    }
-
-    return res;
-}
-
 IntcodeComputer::IntcodeComputer(std::istream& is)
 {
     readf(is);
@@ -103,7 +86,7 @@ void IntcodeComputer::show(Address startAdress, Address endAdress,
         {
             os << std::flush;
             if (highlight == j) changeColor(HIGHLIGHT_FORE_COLOR, HIGHLIGHT_BACK_COLOR);
-            os << std::setw(ITEM_W) << memo[j];
+            os << std::setw(ITEM_W) << get(j);
             os << std::flush;
             if (highlight == j) changeColor(FORE_COLOR, BACK_COLOR);
         }
@@ -126,50 +109,50 @@ void IntcodeComputer::reset()
 
 void IntcodeComputer::init(int noun, int verb)
 {
-    memo[1] = noun;
-    memo[2] = verb;
+    set(1, noun);
+    set(2, verb);
 }
 
 IntcodeComputer::Address IntcodeComputer::executeInstruction(IntcodeComputer::Instruction instruction, IntcodeComputer::Address ip)
 {
-    std::cout<< "execute "<<instruction.opcode<<"(";
-    for (auto x: instruction.parameters) std::cout<<x<<",";
-    std::cout<<")\n";
+    //std::cout<< "execute "<<instruction.opcode<<"(";
+    //for (auto x: instruction.parameters) std::cout<<x<<",";
+    //std::cout<<")\n";
     switch (instruction.opcode) {
         case 99:
             return TERMINATE;
 
         case 1: //add two parameters and write to address
         case 2: //mul two parameters and write to address
-            memo[instruction.parameters[2]] = instruction.opcode==1?
-                                              instruction.parameters[0] + instruction.parameters[1] :
-                                              instruction.parameters[0] * instruction.parameters[1];
+            set(instruction.paramWithoutMode(2), instruction.opcode==1?
+                                            instruction.param(0) + instruction.param(1) :
+                                            instruction.param(0) * instruction.param(1));
             break;
 
         case 3: //write INPUT to address
-            memo[instruction.parameters[0]] = INPUT;
+            set(instruction.paramWithoutMode(0), INPUT);
             break;
 
         case 4: //output the value at the address
-            output(ip, memo[instruction.parameters[0]]);
+            output(ip, instruction.param(0));
             break;
 
         case 5: //jump-if-true
         case 6: //jump-if-false
-            if (instruction.parameters[0] && instruction.opcode==5
-                ||!instruction.parameters[0] && instruction.opcode==6)
-                return instruction.parameters[1];
+            if (instruction.param(0) && instruction.opcode==5
+                ||!instruction.param(0) && instruction.opcode==6)
+                return instruction.param(1);
             else
                 break;
 
         case 7: //less than - evaluate and write to address
         case 8: //equals - evaluate and write to address
-            memo[instruction.parameters[2]] = instruction.opcode==7 ?
-                                              instruction.parameters[0] < instruction.parameters[1] :
-                                              instruction.parameters[0] == instruction.parameters[1];
+            set(instruction.param(2), instruction.opcode==7 ?
+                                              instruction.param(0) < instruction.param(1) :
+                                              instruction.param(0) == instruction.param(1));
             break;
     }
-    show(ip);
+    //show(ip);
 
     Address newIp = ip + Instruction::paramNo.at(instruction.opcode)+1;
     return newIp;
