@@ -21,10 +21,10 @@ void IntcodeComputer::readf(std::istream& is)
 
 enum Color
 {
-    BLACK=0, BLUE, GREEN, AQUA, RED, PURPLE, YELLOW, WHITE, GRAY,
-    LIGHTBLUE, LIGHTGREEN, LIGHTAQUA, LIGHTRED, LIGHTPURPLE, LIGHTYELLOW, BRIGHTWHITE
+    BRIGHTWHITE=0, BLUE, GREEN, AQUA, RED, PURPLE, YELLOW, WHITE, GRAY,
+    LIGHTBLUE, LIGHTGREEN, LIGHTAQUA, LIGHTRED, LIGHTPURPLE, LIGHTYELLOW, BLACK
 };
-void changeColor(unsigned foreground = WHITE, unsigned background = BLACK)
+void changeColor(unsigned foreground = WHITE, unsigned background = 0)
 {
     SetConsoleTextAttribute( GetStdHandle( STD_OUTPUT_HANDLE ),
                              (background<<4) | foreground );
@@ -46,8 +46,8 @@ void IntcodeComputer::show(int startAdress, int endAdress,
         std::ostream& os) const
 {
     const int COLUMNS = 10, ADDRESS_W = 4, ITEM_W = 6, LINE_LEN = 1+ADDRESS_W+2+COLUMNS*ITEM_W,
-            FORE_COLOR = WHITE, BACK_COLOR = BLACK,
-            HIGHLIGHT_FORE_COLOR = RED, HIGHLIGHT_BACK_COLOR = GRAY;
+            FORE_COLOR = BRIGHTWHITE, BACK_COLOR = 0,
+            HIGHLIGHT_FORE_COLOR = BLACK, HIGHLIGHT_BACK_COLOR = LIGHTRED;
 
     changeColor(FORE_COLOR, BACK_COLOR);
     drawLine(LINE_LEN);
@@ -66,6 +66,12 @@ void IntcodeComputer::show(int startAdress, int endAdress,
     }
     drawLine(LINE_LEN);
     changeColor();
+}
+
+void IntcodeComputer::output(int ip, int val, std::ostream& os) const
+{
+    changeColor(BLACK, GREEN);
+    std::cout << "@" << ip << " output: " << val << "\n";
 }
 
 void IntcodeComputer::reset()

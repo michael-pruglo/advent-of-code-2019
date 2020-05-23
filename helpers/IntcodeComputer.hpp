@@ -25,6 +25,7 @@ private:
 public:
     void                show(int highlight = -1, std::ostream& os = std::cout) const;
     void                show(int startAdress, int endAdress, int highlight = -1, std::ostream& os = std::cout) const;
+    void                output(int ip, int val, std::ostream& os = std::cout) const;
     inline int          get(int address) const
     {
         return memo[address];
@@ -76,7 +77,7 @@ public:
                 case 4: //output the value at the address
                     parameters.push_back(memo[ip+1]);
 
-                    std::cout << "@" << ip << " output: " << memo[parameters[0]] << "\n";
+                    output(ip, memo[parameters[0]]);
                     ip += parameters.size()+1;
                     break;
 
