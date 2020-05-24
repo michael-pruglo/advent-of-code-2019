@@ -10,6 +10,7 @@
 #include <iostream>
 #include <unordered_map>
 #include <cmath>
+#include <queue>
 
 class IntcodeComputer
 {
@@ -17,7 +18,7 @@ class IntcodeComputer
     std::vector<int>    memo,
                         startingState;
     const int           TERMINATE = -1;
-    int                 INPUT;
+    std::queue<int>     input; //TODO:output as well
     int                 lastOutput = -1;
 
     struct Instruction
@@ -78,9 +79,10 @@ public:
     void                reset();
     void                init(int noun, int verb);
     int                 executeInstruction(Instruction instruction, Address ip);
-    int                 run(Address instructionPointer = 0)
+    int                 run(const std::queue<int>& inputSequence, Address instructionPointer = 0)
     {
-        for (int ip = 0; ip < memo.size() && ip != TERMINATE; )
+        input = inputSequence;
+        for (int ip = instructionPointer; ip < memo.size() && ip != TERMINATE; )
         {
             if (Instruction::isInstruction(get(ip)))
                 ip = executeInstruction(Instruction(*this, ip), ip);

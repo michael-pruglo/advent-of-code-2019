@@ -9,9 +9,19 @@
 C:/Users/mickl/ClionProjects/untitled3/Solution.hpp
 fstream
 -
-cassert
+numeric
+-
+algorithm
 -
 helpers/IntcodeComputer.hpp
+C:/Users/mickl/ClionProjects/untitled3/helpers/IntcodeComputer.hpp
+
+C:/Users/mickl/ClionProjects/untitled3/helpers/IntcodeComputer.cpp
+iomanip
+-
+windows.h
+-
+IntcodeComputer.hpp
 C:/Users/mickl/ClionProjects/untitled3/helpers/IntcodeComputer.hpp
 
 C:/Users/mickl/ClionProjects/untitled3/helpers/IntcodeComputer.hpp
@@ -22,6 +32,8 @@ iostream
 unordered_map
 -
 cmath
+-
+queue
 -
 
 C:/Users/mickl/ClionProjects/untitled3/main.cpp
