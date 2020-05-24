@@ -15,9 +15,11 @@
 class IntcodeComputer
 {
     typedef int Address;
+    enum Status { RUNNING, AWAITING_INPUT, TERMINATED };
     std::vector<int>    memo,
                         startingState;
-    const int           TERMINATE = -1;
+    Status              status = RUNNING;
+
     std::queue<int>     inputSequence;
     std::vector<int>    outputSeqeunce;
 
@@ -39,7 +41,8 @@ class IntcodeComputer
             std::copy(ic.memo.begin()+ip+1, ic.memo.begin()+ip+1+paramNo.at(opcode), parameters.begin());
             //parameters = getParameters(ip+1, Instruction::paramNo.at(opcode), paramModes);
         }
-        inline int param(int i) { return paramModes/int(std::pow(10, i))%10 ?
+        inline bool isImmediateMode(int i) { return paramModes/int(std::pow(10, i))%10; }
+        inline int param(int i) { return  isImmediateMode(i) ?
                                             parameters[i] :
                                             ic.get(parameters[i]);}
         inline int paramWithoutMode(int i) { return parameters[i]; }
@@ -62,27 +65,23 @@ public:
     void                show(Address highlight = -1, std::ostream& os = std::cout) const;
     void                show(Address startAdress, Address endAdress, Address highlight = -1, std::ostream& os = std::cout) const;
     void                output(Address ip, int val, std::ostream& os = std::cout);
-    inline int          get(Address address) const
-    {
-        return memo[address];
-    }
+    inline int          get(Address address) const { return memo[address]; }
     inline int          set(Address address, int val) { memo[address] = val; }
-    inline int          result() const
-    {
-        return outputSeqeunce.empty() ? get(0) : outputSeqeunce.back();
-    }
-    inline int          size() const
-    {
-        return memo.size();
-    }
+    inline int          result() const { return outputSeqeunce.empty() ? get(0) : outputSeqeunce.back(); }
+    inline int          size() const { return memo.size(); }
+    inline bool         wasTerminated() const { return status==TERMINATED; }
+    inline std::string  currentStatus() const { return status==RUNNING?"RUNNING":status==TERMINATED?"TERMINATED":status==AWAITING_INPUT?"AWAITING_INPUT":"UNKNOWN"; }
+    inline auto         getOutput() { auto res = outputSeqeunce; outputSeqeunce.clear(); return res; }
 
     void                reset();
     void                init(int noun, int verb);
     int                 executeInstruction(Instruction instruction, Address ip);
     int                 run(const std::queue<int>& inputSeq = std::queue<int>(), Address instructionPointer = 0)
     {
+        status = RUNNING;
         inputSequence = inputSeq;
-        for (int ip = instructionPointer; ip < memo.size() && ip != TERMINATE; )
+        //std::cout<<"received "<<inputSequence.size()<<" inputs\n";
+        for (int ip = instructionPointer; ip < memo.size() && status==RUNNING; )
         {
             if (Instruction::isInstruction(get(ip)))
                 ip = executeInstruction(Instruction(*this, ip), ip);
@@ -90,6 +89,7 @@ public:
                 ++ip;
         }
 
+        std::cout<<"returning with status: "<<currentStatus()<<"\n";
         return result();
     }
 };

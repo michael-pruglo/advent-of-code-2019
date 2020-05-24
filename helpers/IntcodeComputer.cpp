@@ -1,10 +1,12 @@
 //
 // Created by Michael on 05/22/20.
 //
-//#define VERBOSE
+
+#define VERBOSE
 
 #include <iomanip>
 #include <windows.h>
+#include <cassert>
 #include "IntcodeComputer.hpp"
 
 const std::unordered_map<IntcodeComputer::Instruction::Opcode, int> IntcodeComputer::Instruction::paramNo =
@@ -39,6 +41,7 @@ IntcodeComputer::IntcodeComputer(std::istream& is)
 {
     readf(is);
     startingState = memo;
+    status = RUNNING;
 }
 
 void IntcodeComputer::readf(std::istream& is)
@@ -52,7 +55,11 @@ void IntcodeComputer::readf(std::istream& is)
         memo.pop_back();
     }
 #ifdef VERBOSE
-    std::cout<<"INPUT = "<<INPUT<<" "<<comma<<"\n";
+    std::cout<<"INPUT = ";
+    if (inputSequence.empty())
+        std::cout<<"NONE\n";
+    else
+        std::cout<<inputSequence.back()<<" "<<comma<<"\n";
     show();
 #endif
 }
@@ -119,6 +126,7 @@ void IntcodeComputer::output(Address ip, int val, std::ostream& os)
 void IntcodeComputer::reset()
 {
     memo = startingState;
+    status = RUNNING;
 }
 
 void IntcodeComputer::init(int noun, int verb)
@@ -131,12 +139,15 @@ IntcodeComputer::Address IntcodeComputer::executeInstruction(IntcodeComputer::In
 {
 #ifdef VERBOSE
     std::cout<< "execute "<<instruction.opcode<<"(";
-    for (auto x: instruction.parameters) std::cout<<x<<",";
+    for (int i = 0; i < instruction.parameters.size(); ++i)
+        std::cout<<(instruction.isImmediateMode(i)?"":"@")<<
+                    instruction.parameters[i]<<",";
     std::cout<<")\n";
 #endif
     switch (instruction.opcode) {
         case 99:
-            return TERMINATE;
+            status = TERMINATED;
+            return -1;
 
         case 1: //add two parameters and write to address
         case 2: //mul two parameters and write to address
@@ -146,8 +157,14 @@ IntcodeComputer::Address IntcodeComputer::executeInstruction(IntcodeComputer::In
             break;
 
         case 3: //write INPUT to address
-            set(instruction.paramWithoutMode(0), inputSequence.front());
-            inputSequence.pop();
+            //assert(!inputSequence.empty());
+            if (inputSequence.empty())
+                status = AWAITING_INPUT;
+            else
+            {
+                set(instruction.paramWithoutMode(0), inputSequence.front());
+                inputSequence.pop();
+            }
             break;
 
         case 4: //output the value at the address
