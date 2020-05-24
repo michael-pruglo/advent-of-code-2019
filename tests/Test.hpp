@@ -19,13 +19,35 @@ public:
     }
 
     template<typename T>
-    static void run(std::vector<std::pair<std::string, T>> testcases)
+    static void runMachine(std::vector<std::pair<std::string, T>> testcases)
     {
         int i = 0, bad = 0;
         for (const auto& [fileName, expected] : testcases)
         {
             Solution sol;
-            auto result = sol.run(fileName);
+            auto result = sol.runComputer(fileName);
+            std::cout<<"test \""<<fileName<<"\" ";
+            if (test(expected, result))
+                std::cout<<" passed\n";
+            else
+            {
+                std::cout<<" WA: expected ["<<expected<<"] got ["<<result<<"]\n";
+                ++bad;
+            }
+        }
+        std::cout<<"==\n";
+        std::cout<<testcases.size()<<" tests done. "<<testcases.size()-bad<<" ok, "<<bad<<" bad\n";
+
+    }
+
+    template<typename T>
+    static void runAmplifier(std::vector<std::pair<std::string, T>> testcases)
+    {
+        int i = 0, bad = 0;
+        for (const auto& [fileName, expected] : testcases)
+        {
+            Solution sol;
+            auto result = sol.runAmplifier(fileName);
             std::cout<<"test \""<<fileName<<"\" ";
             if (test(expected, result))
                 std::cout<<" passed\n";
