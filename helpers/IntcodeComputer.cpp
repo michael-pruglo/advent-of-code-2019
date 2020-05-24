@@ -48,7 +48,7 @@ void IntcodeComputer::readf(std::istream& is)
         memo.push_back(i);
     if (comma=='>')
     {
-        input.push(memo.back());
+        inputSequence.push(memo.back());
         memo.pop_back();
     }
 #ifdef VERBOSE
@@ -113,8 +113,7 @@ void IntcodeComputer::output(Address ip, int val, std::ostream& os)
     std::cout << "@" << ip << " output: " << val << "\n";
     changeColor();
 #endif
-
-    lastOutput = val;
+    outputSeqeunce.push_back(val);
 }
 
 void IntcodeComputer::reset()
@@ -147,8 +146,8 @@ IntcodeComputer::Address IntcodeComputer::executeInstruction(IntcodeComputer::In
             break;
 
         case 3: //write INPUT to address
-            set(instruction.paramWithoutMode(0), input.front());
-            input.pop();
+            set(instruction.paramWithoutMode(0), inputSequence.front());
+            inputSequence.pop();
             break;
 
         case 4: //output the value at the address

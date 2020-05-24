@@ -36,7 +36,7 @@ public:
         } while ( std::next_permutation(phaseSettingSequence.begin(), phaseSettingSequence.end()) );
 
 
-        std::cout<<"from the seq "; for (auto& x: maxSeq) std::cout<<x<<" "; std::cout<<"\n";
+        //std::cout<<"from the seq "; for (auto& x: maxSeq) std::cout<<x<<" "; std::cout<<"\n";
         return maxRes;
     }
 };

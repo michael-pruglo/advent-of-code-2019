@@ -18,8 +18,8 @@ class IntcodeComputer
     std::vector<int>    memo,
                         startingState;
     const int           TERMINATE = -1;
-    std::queue<int>     input; //TODO:output as well
-    int                 lastOutput = -1;
+    std::queue<int>     inputSequence; //TODO:output as well
+    std::vector<int>    outputSeqeunce;
 
     struct Instruction
     {
@@ -69,7 +69,7 @@ public:
     inline int          set(Address address, int val) { memo[address] = val; }
     inline int          result() const
     {
-        return lastOutput==-1 ? get(0) : lastOutput;
+        return outputSeqeunce.empty() ? get(0) : outputSeqeunce.back();
     }
     inline int          size() const
     {
@@ -79,9 +79,9 @@ public:
     void                reset();
     void                init(int noun, int verb);
     int                 executeInstruction(Instruction instruction, Address ip);
-    int                 run(const std::queue<int>& inputSequence, Address instructionPointer = 0)
+    int                 run(const std::queue<int>& inputSeq, Address instructionPointer = 0)
     {
-        input = inputSequence;
+        inputSequence = inputSeq;
         for (int ip = instructionPointer; ip < memo.size() && ip != TERMINATE; )
         {
             if (Instruction::isInstruction(get(ip)))

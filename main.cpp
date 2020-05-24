@@ -31,7 +31,8 @@ int main()
 
         std::make_pair(std::string("tests/in25.txt"), 43210),
         std::make_pair(std::string("tests/in26.txt"), 54321),
-        std::make_pair(std::string("tests/in27.txt"), 65210)
+        std::make_pair(std::string("tests/in27.txt"), 65210),
+        std::make_pair(std::string("tests/in28.txt"), 14902)
 
     }));
 
