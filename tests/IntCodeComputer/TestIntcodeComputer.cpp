@@ -7,43 +7,43 @@
 void TestIntcodeComputer::run()
 {
     runMachine(std::vector({
-         std::make_pair(std::string("tests/IntCodeComputer/in1.txt"), 2),
-         std::make_pair(std::string("tests/IntCodeComputer/in2.txt"), 30),
-         std::make_pair(std::string("tests/IntCodeComputer/in3.txt"), 6568671),
-         std::make_pair(std::string("tests/IntCodeComputer/in4.txt"), 19690720),
-         std::make_pair(std::string("tests/IntCodeComputer/in5.txt"), 3500),
-         std::make_pair(std::string("tests/IntCodeComputer/in6.txt"), 6745903),
-         std::make_pair(std::string("tests/IntCodeComputer/in7.txt"), 9168267),
-         std::make_pair(std::string("tests/IntCodeComputer/in8.txt"), 1),
-         std::make_pair(std::string("tests/IntCodeComputer/in9.txt"), 0),
-         std::make_pair(std::string("tests/IntCodeComputer/in10.txt"), 1),
-         std::make_pair(std::string("tests/IntCodeComputer/in11.txt"), 0),
-         std::make_pair(std::string("tests/IntCodeComputer/in12.txt"), 1),
-         std::make_pair(std::string("tests/IntCodeComputer/in13.txt"), 0),
-         std::make_pair(std::string("tests/IntCodeComputer/in14.txt"), 1),
-         std::make_pair(std::string("tests/IntCodeComputer/in15.txt"), 0),
-         std::make_pair(std::string("tests/IntCodeComputer/in16.txt"), 1),
-         std::make_pair(std::string("tests/IntCodeComputer/in17.txt"), 0),
-         std::make_pair(std::string("tests/IntCodeComputer/in18.txt"), 1),
-         std::make_pair(std::string("tests/IntCodeComputer/in19.txt"), 0),
-         std::make_pair(std::string("tests/IntCodeComputer/in20.txt"), 999),
-         std::make_pair(std::string("tests/IntCodeComputer/in21.txt"), 1000),
-         std::make_pair(std::string("tests/IntCodeComputer/in22.txt"), 1001),
-         std::make_pair(std::string("tests/IntCodeComputer/in23.txt"), 2369720),
-         std::make_pair(std::string("tests/IntCodeComputer/in24.txt"), 13933662)
+        std::make_pair(std::string("tests/IntCodeComputer/in1.txt"), 2ll),
+        std::make_pair(std::string("tests/IntCodeComputer/in2.txt"), 30ll),
+        std::make_pair(std::string("tests/IntCodeComputer/in3.txt"), 6568671ll),
+        std::make_pair(std::string("tests/IntCodeComputer/in4.txt"), 19690720ll),
+        std::make_pair(std::string("tests/IntCodeComputer/in5.txt"), 3500ll),
+        std::make_pair(std::string("tests/IntCodeComputer/in6.txt"), 6745903ll),
+        std::make_pair(std::string("tests/IntCodeComputer/in7.txt"), 9168267ll),
+        std::make_pair(std::string("tests/IntCodeComputer/in8.txt"), 1ll),
+        std::make_pair(std::string("tests/IntCodeComputer/in9.txt"), 0ll),
+        std::make_pair(std::string("tests/IntCodeComputer/in10.txt"), 1ll),
+        std::make_pair(std::string("tests/IntCodeComputer/in11.txt"), 0ll),
+        std::make_pair(std::string("tests/IntCodeComputer/in12.txt"), 1ll),
+        std::make_pair(std::string("tests/IntCodeComputer/in13.txt"), 0ll),
+        std::make_pair(std::string("tests/IntCodeComputer/in14.txt"), 1ll),
+        std::make_pair(std::string("tests/IntCodeComputer/in15.txt"), 0ll),
+        std::make_pair(std::string("tests/IntCodeComputer/in16.txt"), 1ll),
+        std::make_pair(std::string("tests/IntCodeComputer/in17.txt"), 0ll),
+        std::make_pair(std::string("tests/IntCodeComputer/in18.txt"), 1ll),
+        std::make_pair(std::string("tests/IntCodeComputer/in19.txt"), 0ll),
+        std::make_pair(std::string("tests/IntCodeComputer/in20.txt"), 999ll),
+        std::make_pair(std::string("tests/IntCodeComputer/in21.txt"), 1000ll),
+        std::make_pair(std::string("tests/IntCodeComputer/in22.txt"), 1001ll),
+        std::make_pair(std::string("tests/IntCodeComputer/in23.txt"), 2369720ll),
+        std::make_pair(std::string("tests/IntCodeComputer/in24.txt"), 13933662ll)
     }));
 
     runAmplifier(std::vector({
-           std::make_pair(std::string("tests/IntCodeComputer/in25.txt"), 43210),
-           std::make_pair(std::string("tests/IntCodeComputer/in26.txt"), 54321),
-           std::make_pair(std::string("tests/IntCodeComputer/in27.txt"), 65210),
-           std::make_pair(std::string("tests/IntCodeComputer/in28.txt"), 14902)
+        std::make_pair(std::string("tests/IntCodeComputer/in25.txt"), 43210ll),
+        std::make_pair(std::string("tests/IntCodeComputer/in26.txt"), 54321ll),
+        std::make_pair(std::string("tests/IntCodeComputer/in27.txt"), 65210ll),
+        std::make_pair(std::string("tests/IntCodeComputer/in28.txt"), 14902ll)
     }));
 
     runAmplifierFeedbackloop(std::vector({
-           std::make_pair(std::string("tests/IntCodeComputer/in29.txt"), 139629729),
-           std::make_pair(std::string("tests/IntCodeComputer/in30.txt"), 18216),
-           std::make_pair(std::string("tests/IntCodeComputer/in31.txt"), 6489132)
+        std::make_pair(std::string("tests/IntCodeComputer/in29.txt"), 139629729ll),
+        std::make_pair(std::string("tests/IntCodeComputer/in30.txt"), 18216ll),
+        std::make_pair(std::string("tests/IntCodeComputer/in31.txt"), 6489132ll)
     }));
 
     std::cout<<"\n\n";

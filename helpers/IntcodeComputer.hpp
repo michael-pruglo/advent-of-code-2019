@@ -8,30 +8,33 @@
 
 #include <vector>
 #include <iostream>
-#include <unordered_map>
 #include <cmath>
 #include <queue>
+#include <unordered_map>
 
 class IntcodeComputer
 {
     typedef int Address;
+    typedef long long Mem_t;
     enum Status { READY, AWAITING_INPUT, TERMINATED };
-    std::vector<int>    memo,
+    std::vector<Mem_t>  memo,
                         startingState;
     Status              status;
     Address             currIp;
+    Address             relativeBase;
 
-    std::queue<int>     inputSequence;
-    std::vector<int>    outputSeqeunce;
+    std::queue<Mem_t>   inputSequence;
+    std::vector<Mem_t>  outputSeqeunce;
 
     struct Instruction
     {
         typedef int Opcode;
-        typedef int Modes;
+        typedef int ModeCollection;
+        enum Mode { POSITION=0, IMMEDIATE=1, RELATIV=2 };
 
         Opcode opcode;
-        Modes paramModes;
-        std::vector<int> parameters;
+        ModeCollection paramModes;
+        std::vector<Mem_t> parameters;
 
         Instruction(IntcodeComputer& ic, Address ip) : ic(ic)
         {
@@ -42,15 +45,13 @@ class IntcodeComputer
             std::copy(ic.memo.begin()+ip+1, ic.memo.begin()+ip+1+paramNo.at(opcode), parameters.begin());
             //parameters = getParameters(ip+1, Instruction::paramNo.at(opcode), paramModes);
         }
-        inline bool isImmediateMode(int i) { return paramModes/int(std::pow(10, i))%10; }
-        inline int param(int i) { return  isImmediateMode(i) ?
-                                            parameters[i] :
-                                            ic.get(parameters[i]);}
-        inline int paramWithoutMode(int i) { return parameters[i]; }
+        inline Mode getParamMode(int i) { return Mode(paramModes/int(std::pow(10, i))%10); }
+        inline Mem_t param(int i);
+        inline Mem_t paramWithoutMode(int i) { return parameters[i]; }
 
         static const std::unordered_map<Opcode, int> paramNo;
-        static bool isInstruction(int value);
-        static std::pair<Opcode, Modes> parseValue(int value);
+        static bool isInstruction(Mem_t value);
+        static std::pair<Opcode, ModeCollection> parseValue(Mem_t value);
 
         IntcodeComputer& ic;
     };
@@ -66,48 +67,20 @@ private:
 public:
     void                show(Address highlight = -1, std::ostream& os = std::cout) const;
     void                show(Address startAdress, Address endAdress, Address highlight = -1, std::ostream& os = std::cout) const;
-    void                output(Address ip, int val, std::ostream& os = std::cout);
-    inline int          get(Address address) const { return memo[address]; }
-    inline int          set(Address address, int val) { memo[address] = val; }
-    inline int          result() const { return outputSeqeunce.empty() ? get(0) : outputSeqeunce.back(); }
+    void                output(Address ip, Mem_t val, std::ostream& os = std::cout);
+    inline Mem_t        get(Address address) const { return memo[address]; }
+    inline void         set(Address address, Mem_t val) { memo[address] = val; }
+    inline Mem_t        result() const { return outputSeqeunce.empty() ? get(0) : outputSeqeunce.back(); }
     inline int          size() const { return memo.size(); }
     inline bool         wasTerminated() const { return status==TERMINATED; }
     inline std::string  currentStatusString() const { return status == READY ? "READY" : status == TERMINATED ? "TERMINATED" : status == AWAITING_INPUT ? "AWAITING_INPUT" : "UNKNOWN"; }
     inline auto         getOutput() { auto res = outputSeqeunce; outputSeqeunce.clear(); return res; }
 
     void                reset();
-    void                init(int noun, int verb);
-    int                 executeInstruction(Instruction instruction, Address ip);
-    int                 run(std::queue<int> inputSeq = std::queue<int>()) { return run(std::move(inputSeq), currIp); }
-    int                 run(std::queue<int> inputSeq, Address instructionPointer)
-    {
-        if (status == AWAITING_INPUT && !inputSeq.empty())
-            setStatus(READY);
-        if (status != READY)
-        {
-            std::cout<<"[MACHINE ERROR] Calling Run() on a non-READY machine. Current status: "<<currentStatusString()<<"\n";
-            return -1;
-        }
-
-        for ( ; !inputSeq.empty() ; inputSeq.pop()) inputSequence.push(inputSeq.front());
-#ifdef VERBOSE
-        std::cout<<"Run({"; for (auto temp = inputSeq; !temp.empty(); temp.pop()) std::cout<<temp.front()<<" "; std::cout<<"},"<<instructionPointer<<")\n";
-        std::cout<<"current input queue: ["; for (auto temp = inputSequence; !temp.empty(); temp.pop()) std::cout<<temp.front()<<" "; std::cout<<"]\n";
-#endif
-
-        for (currIp = instructionPointer; currIp < memo.size() && status == READY; )
-        {
-            if (Instruction::isInstruction(get(currIp)))
-                currIp = executeInstruction(Instruction(*this, currIp), currIp);
-            else
-                ++currIp;
-        }
-
-#ifdef VERBOSE
-        std::cout << "returning with status: " << currentStatusString() << "\n";
-#endif
-        return result();
-    }
+    void                init(Mem_t noun, Mem_t verb);
+    Address             executeInstruction(Instruction instruction, Address ip);
+    Mem_t               run(std::queue<Mem_t> inputSeq = std::queue<Mem_t>()) { return run(std::move(inputSeq), currIp); }
+    Mem_t               run(std::queue<Mem_t> inputSeq, Address instructionPointer);
 };
 
 

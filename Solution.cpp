@@ -3,7 +3,7 @@
 //
 #include "Solution.hpp"
 
-int Solution::runAmplifier(const std::string& inFileName)
+long long Solution::runAmplifier(const std::string& inFileName)
 {
     std::ifstream inFile(inFileName);
 
@@ -12,13 +12,13 @@ int Solution::runAmplifier(const std::string& inFileName)
 
     std::vector<int> phaseSettingSequence(N);
     std::iota(phaseSettingSequence.begin(), phaseSettingSequence.end(), 0);
-    int maxRes = -1;
+    long long maxRes = -1;
     std::vector<int> maxSeq;
 
     do {
-        int currRes = 0;
+        long long currRes = 0;
         for (int i = 0; i < N; ++i)
-            currRes = ic[i].run(std::queue<int>({phaseSettingSequence[i], currRes}));
+            currRes = ic[i].run(std::queue<long long>({phaseSettingSequence[i], currRes}));
 
         if (maxRes < currRes)
         {
@@ -35,7 +35,7 @@ int Solution::runAmplifier(const std::string& inFileName)
     return maxRes;
 }
 
-int Solution::runComputer(const std::string& inFileName)
+long long Solution::runComputer(const std::string& inFileName)
 {
     std::ifstream inFile(inFileName);
 
@@ -43,7 +43,7 @@ int Solution::runComputer(const std::string& inFileName)
     return ic.run();
 }
 
-int Solution::runAmplifierFeedbackloop(const std::string& inFileName)
+long long Solution::runAmplifierFeedbackloop(const std::string& inFileName)
 {
     std::ifstream inFile(inFileName);
 
@@ -52,21 +52,21 @@ int Solution::runAmplifierFeedbackloop(const std::string& inFileName)
 
     std::vector<int> phaseSettingSequence(N);
     std::iota(phaseSettingSequence.begin(), phaseSettingSequence.end(), 5);
-    int maxRes = -1;
+    long long maxRes = -1;
     std::vector<int> maxSeq;
 
     //phaseSettingSequence = {9,7,8,6,5};
     do {
         for (auto& x: ic) x.reset();
-        int currRes = 0, terminateSum = 0;
-        std::vector<int> currout = {currRes};
+        long long currRes = 0, terminateSum = 0;
+        std::vector<long long> currout = {currRes};
         bool firstRunFlag = true;
         for (int i = 0; terminateSum<N; )
         {
             if (!ic[i].wasTerminated())
             {
                 //std::cout<<"=========machine "<<i<<"\n";
-                std::queue<int> nextInput;
+                std::queue<long long> nextInput;
                 if (firstRunFlag) nextInput.push(phaseSettingSequence[i]);
                 for (auto x: currout) nextInput.push(x);
                 //ic[i].reset();

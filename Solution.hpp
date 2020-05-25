@@ -8,20 +8,24 @@
 #include <fstream>
 #include <numeric>
 #include <algorithm>
+#include <map>
+#include <set>
 #include "helpers/IntcodeComputer.hpp"
 
 class Solution
 {
 public:
+
     auto run(const std::string& inFileName)
     {
-        return runAmplifierFeedbackloop(inFileName);
+        return 0;
+
     }
 
 public:
-    int runComputer(const std::string& inFileName);
-    int runAmplifier(const std::string& inFileName);
-    int runAmplifierFeedbackloop(const std::string& inFileName);
+    long long runComputer(const std::string& inFileName);
+    long long runAmplifier(const std::string& inFileName);
+    long long runAmplifierFeedbackloop(const std::string& inFileName);
 };
 
 #endif //UNTITLED3_SOLUTION_HPP

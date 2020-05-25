@@ -17,22 +17,35 @@ const std::unordered_map<IntcodeComputer::Instruction::Opcode, int> IntcodeCompu
                 {5, 2},
                 {6, 2},
                 {7, 3},
-                {8, 3}
+                {8, 3},
+                {9, 1}
         };
 
-bool IntcodeComputer::Instruction::isInstruction(int value)
+bool IntcodeComputer::Instruction::isInstruction(IntcodeComputer::Mem_t value)
 {
     auto [tryOpcode, tryParamModes] = parseValue(value);
     return paramNo.count(tryOpcode);
 }
 
 std::pair<IntcodeComputer::Instruction::Opcode,
-          IntcodeComputer::Instruction::Modes>
-          IntcodeComputer::Instruction::parseValue(int value)
+          IntcodeComputer::Instruction::ModeCollection>
+          IntcodeComputer::Instruction::parseValue(IntcodeComputer::Mem_t value)
 {
-    int opcode = value % 100;
-    int paramModes = value / 100;
+    Mem_t opcode = value % 100;
+    Mem_t paramModes = value / 100;
     return std::make_pair(opcode, paramModes);
+}
+
+IntcodeComputer::Mem_t IntcodeComputer::Instruction::param(int i)
+{
+    switch (getParamMode(i))
+    {
+        case Mode::POSITION: return ic.get(parameters[i]);
+        case Mode::IMMEDIATE: return parameters[i];
+        case Mode::RELATIV: return ic.get(ic.relativeBase + parameters[i]);
+    }
+    std::cout<<"[FATAL ERROR] wrong parameter mode: "<<getParamMode(i)<<"\n";
+    exit(4);
 }
 
 IntcodeComputer::IntcodeComputer(std::istream& is)
@@ -41,6 +54,7 @@ IntcodeComputer::IntcodeComputer(std::istream& is)
     startingState = memo;
     setStatus(READY);
     currIp = 0;
+    relativeBase = 0;
 }
 
 void IntcodeComputer::readf(std::istream& is)
@@ -112,7 +126,7 @@ void IntcodeComputer::show(Address startAdress, Address endAdress,
     changeColor();
 }
 
-void IntcodeComputer::output(Address ip, int val, std::ostream& os)
+void IntcodeComputer::output(Address ip, IntcodeComputer::Mem_t val, std::ostream& os)
 {
 #ifdef VERBOSE
     changeColor(BLACK, GREEN);
@@ -127,9 +141,10 @@ void IntcodeComputer::reset()
     memo = startingState;
     setStatus(READY);
     currIp = 0;
+    relativeBase = 0;
 }
 
-void IntcodeComputer::init(int noun, int verb)
+void IntcodeComputer::init(IntcodeComputer::Mem_t noun, IntcodeComputer::Mem_t verb)
 {
     set(1, noun);
     set(2, verb);
@@ -185,6 +200,14 @@ IntcodeComputer::Address IntcodeComputer::executeInstruction(IntcodeComputer::In
                                               instruction.param(0) < instruction.param(1) :
                                               instruction.param(0) == instruction.param(1));
             break;
+
+        case 9: //adjust the relative base
+            relativeBase += instruction.param(0);
+            break;
+
+        default:
+            std::cout<<"[FATAL ERROR] Unsupported instruction: "<<instruction.opcode<<"\n";
+            exit(5);
     }
 #ifdef VERBOSE
     show(ip);
@@ -222,5 +245,35 @@ void IntcodeComputer::setStatus(IntcodeComputer::Status st)
             std::cout<<"[FATAL ERROR]: setStatus("<<st<<") - unknown status\n";
             exit(3);
     }
+}
+
+IntcodeComputer::Mem_t IntcodeComputer::run(std::queue<IntcodeComputer::Mem_t> inputSeq, IntcodeComputer::Address instructionPointer)
+{
+    if (status == AWAITING_INPUT && !inputSeq.empty())
+        setStatus(READY);
+    if (status != READY)
+    {
+        std::cout<<"[MACHINE ERROR] Calling Run() on a non-READY machine. Current status: "<<currentStatusString()<<"\n";
+        return -1;
+    }
+
+    for ( ; !inputSeq.empty() ; inputSeq.pop()) inputSequence.push(inputSeq.front());
+#ifdef VERBOSE
+    std::cout<<"Run({"; for (auto temp = inputSeq; !temp.empty(); temp.pop()) std::cout<<temp.front()<<" "; std::cout<<"},"<<instructionPointer<<")\n";
+    std::cout<<"current input queue: ["; for (auto temp = inputSequence; !temp.empty(); temp.pop()) std::cout<<temp.front()<<" "; std::cout<<"]\n";
+#endif
+
+    for (currIp = instructionPointer; currIp < memo.size() && status == READY; )
+    {
+        if (Instruction::isInstruction(get(currIp)))
+            currIp = executeInstruction(Instruction(*this, currIp), currIp);
+        else
+            ++currIp;
+    }
+
+#ifdef VERBOSE
+    std::cout << "returning with status: " << currentStatusString() << "\n";
+#endif
+    return result();
 }
 
