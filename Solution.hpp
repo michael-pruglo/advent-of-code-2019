@@ -75,22 +75,28 @@ int Solution::runAmplifierFeedbackloop(const std::string& inFileName)
     //phaseSettingSequence = {9,7,8,6,5};
     do {
         for (auto& x: ic) x.reset();
-        int currRes = 0;
+        int currRes = 0, terminateSum = 0;
         std::vector<int> currout = {currRes};
-        int terminateSum = 0;
-        for (int i = 0; terminateSum<N; ++i<N?:i=0)
+        bool firstRunFlag = true;
+        for (int i = 0; terminateSum<N; )
         {
             if (!ic[i].wasTerminated())
             {
-                std::cout<<"=========machine "<<i<<"\n";
+                //std::cout<<"=========machine "<<i<<"\n";
                 std::queue<int> nextInput;
-                nextInput.push(phaseSettingSequence[i]);
+                if (firstRunFlag) nextInput.push(phaseSettingSequence[i]);
                 for (auto x: currout) nextInput.push(x);
                 //ic[i].reset();
                 currRes = ic[i].run(nextInput);
                 currout = ic[i].getOutput();
             } else
                 ++terminateSum;
+
+            if (++i >= N)
+            {
+                i = 0;
+                firstRunFlag = false;
+            }
         }
         if (maxRes < currRes)
         {
@@ -98,7 +104,7 @@ int Solution::runAmplifierFeedbackloop(const std::string& inFileName)
             maxSeq = phaseSettingSequence;
         }
 
-        std::cout<<"for the seq "; for (auto& x: phaseSettingSequence) std::cout<<x<<" "; std::cout<<"="<<currRes<<"\n";
+        //std::cout<<"for the seq "; for (auto& x: phaseSettingSequence) std::cout<<x<<" "; std::cout<<"="<<currRes<<"\n";
     } while ( std::next_permutation(phaseSettingSequence.begin(), phaseSettingSequence.end()) );
 
 

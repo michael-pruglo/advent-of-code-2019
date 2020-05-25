@@ -2,8 +2,6 @@
 // Created by Michael on 05/22/20.
 //
 
-#define VERBOSE
-
 #include <iomanip>
 #include <windows.h>
 #include <cassert>
@@ -41,7 +39,8 @@ IntcodeComputer::IntcodeComputer(std::istream& is)
 {
     readf(is);
     startingState = memo;
-    status = RUNNING;
+    setStatus(READY);
+    currIp = 0;
 }
 
 void IntcodeComputer::readf(std::istream& is)
@@ -126,7 +125,8 @@ void IntcodeComputer::output(Address ip, int val, std::ostream& os)
 void IntcodeComputer::reset()
 {
     memo = startingState;
-    status = RUNNING;
+    setStatus(READY);
+    currIp = 0;
 }
 
 void IntcodeComputer::init(int noun, int verb)
@@ -146,7 +146,7 @@ IntcodeComputer::Address IntcodeComputer::executeInstruction(IntcodeComputer::In
 #endif
     switch (instruction.opcode) {
         case 99:
-            status = TERMINATED;
+            setStatus(TERMINATED);
             return -1;
 
         case 1: //add two parameters and write to address
@@ -159,7 +159,7 @@ IntcodeComputer::Address IntcodeComputer::executeInstruction(IntcodeComputer::In
         case 3: //write INPUT to address
             //assert(!inputSequence.empty());
             if (inputSequence.empty())
-                status = AWAITING_INPUT;
+                setStatus(AWAITING_INPUT);
             else
             {
                 set(instruction.paramWithoutMode(0), inputSequence.front());
@@ -190,7 +190,42 @@ IntcodeComputer::Address IntcodeComputer::executeInstruction(IntcodeComputer::In
     show(ip);
 #endif
 
-    Address newIp = ip + Instruction::paramNo.at(instruction.opcode)+1;
+    Address newIp = status == READY ?
+            ip + Instruction::paramNo.at(instruction.opcode)+1 :
+            ip;
     return newIp;
+}
+
+void IntcodeComputer::setStatus(IntcodeComputer::Status st)
+{
+    switch (st)
+    {
+        case READY:
+            status = READY;
+#ifdef VERBOSE
+            std::cout<<"[status] Machine set running.\n";
+#endif
+            break;
+        case AWAITING_INPUT:
+            status = AWAITING_INPUT;
+#ifdef VERBOSE
+            std::cout<<"[status] Machine paused. Awaiting input.\n";
+#endif
+            break;
+        case TERMINATED:
+            status = TERMINATED;
+#ifdef VERBOSE
+        std::cout<<"[status] Machine terminated.\n";
+#endif
+            break;
+        default:
+            std::cout<<"[FATAL ERROR]: setStatus("<<st<<") - unknown status\n";
+            exit(3);
+    }
+}
+
+int IntcodeComputer::run(const std::queue<int>& inputSeq)
+{
+    return run(inputSeq, currIp);
 }
 

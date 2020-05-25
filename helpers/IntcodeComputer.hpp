@@ -4,7 +4,7 @@
 
 #ifndef UNTITLED3_INTCODECOMPUTER_HPP
 #define UNTITLED3_INTCODECOMPUTER_HPP
-
+//#define VERBOSE
 
 #include <vector>
 #include <iostream>
@@ -15,10 +15,11 @@
 class IntcodeComputer
 {
     typedef int Address;
-    enum Status { RUNNING, AWAITING_INPUT, TERMINATED };
+    enum Status { READY, AWAITING_INPUT, TERMINATED };
     std::vector<int>    memo,
                         startingState;
-    Status              status = RUNNING;
+    Status              status;
+    Address             currIp;
 
     std::queue<int>     inputSequence;
     std::vector<int>    outputSeqeunce;
@@ -60,6 +61,7 @@ public:
 
 private:
     void                readf(std::istream& is);
+    void                setStatus(Status st);
 
 public:
     void                show(Address highlight = -1, std::ostream& os = std::cout) const;
@@ -70,26 +72,32 @@ public:
     inline int          result() const { return outputSeqeunce.empty() ? get(0) : outputSeqeunce.back(); }
     inline int          size() const { return memo.size(); }
     inline bool         wasTerminated() const { return status==TERMINATED; }
-    inline std::string  currentStatus() const { return status==RUNNING?"RUNNING":status==TERMINATED?"TERMINATED":status==AWAITING_INPUT?"AWAITING_INPUT":"UNKNOWN"; }
+    inline std::string  currentStatusString() const { return status == READY ? "READY" : status == TERMINATED ? "TERMINATED" : status == AWAITING_INPUT ? "AWAITING_INPUT" : "UNKNOWN"; }
     inline auto         getOutput() { auto res = outputSeqeunce; outputSeqeunce.clear(); return res; }
 
     void                reset();
     void                init(int noun, int verb);
     int                 executeInstruction(Instruction instruction, Address ip);
-    int                 run(const std::queue<int>& inputSeq = std::queue<int>(), Address instructionPointer = 0)
+    int                 run(const std::queue<int>& inputSeq = std::queue<int>());
+    int                 run(const std::queue<int>& inputSeq, Address instructionPointer)
     {
-        status = RUNNING;
+        if (status == AWAITING_INPUT && !inputSeq.empty())
+            setStatus(READY);
         inputSequence = inputSeq;
-        //std::cout<<"received "<<inputSequence.size()<<" inputs\n";
-        for (int ip = instructionPointer; ip < memo.size() && status==RUNNING; )
+#ifdef VERBOSE
+        std::cout<<"received input: ["; for (auto temp = inputSeq; !temp.empty(); temp.pop()) std::cout<<temp.front()<<" "; std::cout<<"]\n";
+#endif
+        for (currIp = instructionPointer; currIp < memo.size() && status == READY; )
         {
-            if (Instruction::isInstruction(get(ip)))
-                ip = executeInstruction(Instruction(*this, ip), ip);
+            if (Instruction::isInstruction(get(currIp)))
+                currIp = executeInstruction(Instruction(*this, currIp), currIp);
             else
-                ++ip;
+                ++currIp;
         }
 
-        std::cout<<"returning with status: "<<currentStatus()<<"\n";
+#ifdef VERBOSE
+        std::cout << "returning with status: " << currentStatusString() << "\n";
+#endif
         return result();
     }
 };
