@@ -47,7 +47,7 @@ class IntcodeComputer
         }
         inline Mode getParamMode(int i) { return Mode(paramModes/int(std::pow(10, i))%10); }
         inline Mem_t param(int i);
-        inline Mem_t paramWithoutMode(int i) { return parameters[i]; }
+        inline Mem_t paramAsAddress(int i);
 
         static const std::unordered_map<Opcode, int> paramNo;
         static bool isInstruction(Mem_t value);
@@ -63,14 +63,15 @@ public:
 private:
     void                readf(std::istream& is);
     void                setStatus(Status st);
+    inline Mem_t        _get_const(Address address) const { return memo[address]; }
 
 public:
     void                show(Address highlight = -1, std::ostream& os = std::cout) const;
     void                show(Address startAdress, Address endAdress, Address highlight = -1, std::ostream& os = std::cout) const;
     void                output(Address ip, Mem_t val, std::ostream& os = std::cout);
-    inline Mem_t        get(Address address) const { return memo[address]; }
-    inline void         set(Address address, Mem_t val) { memo[address] = val; }
-    inline Mem_t        result() const { return outputSeqeunce.empty() ? get(0) : outputSeqeunce.back(); }
+    inline Mem_t        get(Address address) { if(address>=memo.size()) memo.resize(address+1, 0); return memo[address]; }
+    inline void         set(Address address, Mem_t val) { if(address>=memo.size()) memo.resize(address+1, 0); memo[address] = val; }
+    inline Mem_t        result() const { return outputSeqeunce.empty() ? _get_const(0) : outputSeqeunce.back(); }
     inline int          size() const { return memo.size(); }
     inline bool         wasTerminated() const { return status==TERMINATED; }
     inline std::string  currentStatusString() const { return status == READY ? "READY" : status == TERMINATED ? "TERMINATED" : status == AWAITING_INPUT ? "AWAITING_INPUT" : "UNKNOWN"; }

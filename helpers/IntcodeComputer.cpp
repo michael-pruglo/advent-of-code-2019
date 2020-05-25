@@ -48,6 +48,17 @@ IntcodeComputer::Mem_t IntcodeComputer::Instruction::param(int i)
     exit(4);
 }
 
+IntcodeComputer::Mem_t IntcodeComputer::Instruction::paramAsAddress(int i)
+{
+    switch (getParamMode(i))
+    {
+        case Mode::POSITION: return parameters[i];
+        case Mode::RELATIV: return ic.relativeBase + parameters[i];
+    }
+    std::cout<<"[FATAL ERROR] wrong parameter as address mode: "<<getParamMode(i)<<"\n";
+    exit(4);
+}
+
 IntcodeComputer::IntcodeComputer(std::istream& is)
 {
     readf(is);
@@ -60,7 +71,7 @@ IntcodeComputer::IntcodeComputer(std::istream& is)
 void IntcodeComputer::readf(std::istream& is)
 {
     char comma;
-    for (int i; is>>i; is>>comma)
+    for (Mem_t i; is>>i; is>>comma)
         memo.push_back(i);
     if (comma=='>')
     {
@@ -103,7 +114,7 @@ void IntcodeComputer::show(Address startAdress, Address endAdress,
                            Address highlight,
                            std::ostream& os) const
 {
-    const int COLUMNS = 10, ADDRESS_W = 4, ITEM_W = 6, LINE_LEN = 1+ADDRESS_W+2+COLUMNS*ITEM_W,
+    const int COLUMNS = 10, ADDRESS_W = 4, ITEM_W = 10, LINE_LEN = 1+ADDRESS_W+2+COLUMNS*ITEM_W,
             FORE_COLOR = BRIGHTWHITE, BACK_COLOR = 0,
             HIGHLIGHT_FORE_COLOR = BLACK, HIGHLIGHT_BACK_COLOR = LIGHTRED;
 
@@ -116,7 +127,7 @@ void IntcodeComputer::show(Address startAdress, Address endAdress,
         {
             os << std::flush;
             if (highlight == j) changeColor(HIGHLIGHT_FORE_COLOR, HIGHLIGHT_BACK_COLOR);
-            os << std::setw(ITEM_W) << get(j);
+            os << std::setw(ITEM_W) << _get_const(j);
             os << std::flush;
             if (highlight == j) changeColor(FORE_COLOR, BACK_COLOR);
         }
@@ -155,9 +166,13 @@ IntcodeComputer::Address IntcodeComputer::executeInstruction(IntcodeComputer::In
 #ifdef VERBOSE
     std::cout<< "execute __@"<<ip<<"__"<<instruction.opcode<<"(";
     for (int i = 0; i < instruction.parameters.size(); ++i)
-        std::cout<<(instruction.isImmediateMode(i)?"":"@")<<
-                    instruction.parameters[i]<<",";
+    {
+        auto pmode = instruction.getParamMode(i);
+        std::cout<<(pmode==Instruction::IMMEDIATE?"":pmode==Instruction::POSITION?"@":"&")<<
+                 instruction.parameters[i]<<",";
+    }
     std::cout<<")\n";
+    std::cout<<"relative base = "<<relativeBase<<"\n";
 #endif
     switch (instruction.opcode) {
         case 99:
@@ -166,7 +181,7 @@ IntcodeComputer::Address IntcodeComputer::executeInstruction(IntcodeComputer::In
 
         case 1: //add two parameters and write to address
         case 2: //mul two parameters and write to address
-            set(instruction.paramWithoutMode(2), instruction.opcode==1?
+            set(instruction.paramAsAddress(2), instruction.opcode == 1 ?
                                             instruction.param(0) + instruction.param(1) :
                                             instruction.param(0) * instruction.param(1));
             break;
@@ -177,7 +192,8 @@ IntcodeComputer::Address IntcodeComputer::executeInstruction(IntcodeComputer::In
                 setStatus(AWAITING_INPUT);
             else
             {
-                set(instruction.paramWithoutMode(0), inputSequence.front());
+                //not without mode
+                set(instruction.paramAsAddress(0), inputSequence.front());
                 inputSequence.pop();
             }
             break;
@@ -196,7 +212,7 @@ IntcodeComputer::Address IntcodeComputer::executeInstruction(IntcodeComputer::In
 
         case 7: //less than - evaluate and write to address
         case 8: //equals - evaluate and write to address
-            set(instruction.paramWithoutMode(2), instruction.opcode==7 ?
+            set(instruction.paramAsAddress(2), instruction.opcode == 7 ?
                                               instruction.param(0) < instruction.param(1) :
                                               instruction.param(0) == instruction.param(1));
             break;

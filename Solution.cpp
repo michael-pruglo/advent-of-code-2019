@@ -3,6 +3,17 @@
 //
 #include "Solution.hpp"
 
+long long Solution::runComputer(const std::string& inFileName)
+{
+    std::ifstream inFile(inFileName);
+
+    IntcodeComputer ic(inFile);
+    auto res = ic.run();
+    auto residualOutput = ic.getOutput();
+    if (residualOutput.size()>1) { std::cout << "\tvvv [bottom] has residual output ["; for (auto& x: residualOutput) std::cout << x << " "; std::cout << "] \n";}
+    return res;
+}
+
 long long Solution::runAmplifier(const std::string& inFileName)
 {
     std::ifstream inFile(inFileName);
@@ -33,14 +44,6 @@ long long Solution::runAmplifier(const std::string& inFileName)
 
     //std::cout<<"from the seq "; for (auto& x: maxSeq) std::cout<<x<<" "; std::cout<<"\n";
     return maxRes;
-}
-
-long long Solution::runComputer(const std::string& inFileName)
-{
-    std::ifstream inFile(inFileName);
-
-    IntcodeComputer ic(inFile);
-    return ic.run();
 }
 
 long long Solution::runAmplifierFeedbackloop(const std::string& inFileName)

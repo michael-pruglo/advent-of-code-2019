@@ -18,8 +18,7 @@ public:
 
     auto run(const std::string& inFileName)
     {
-        return 0;
-
+        return runComputer(inFileName);
     }
 
 public:
