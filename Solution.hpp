@@ -40,11 +40,15 @@ int Solution::runAmplifier(const std::string& inFileName)
         int currRes = 0;
         for (int i = 0; i < N; ++i)
             currRes = ic[i].run(std::queue<int>({phaseSettingSequence[i], currRes}));
+
         if (maxRes < currRes)
         {
             maxRes = currRes;
             maxSeq = phaseSettingSequence;
         }
+
+        for (auto& computer: ic)
+            computer.reset();
     } while ( std::next_permutation(phaseSettingSequence.begin(), phaseSettingSequence.end()) );
 
 

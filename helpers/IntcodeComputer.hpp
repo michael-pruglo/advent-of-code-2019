@@ -78,15 +78,23 @@ public:
     void                reset();
     void                init(int noun, int verb);
     int                 executeInstruction(Instruction instruction, Address ip);
-    int                 run(const std::queue<int>& inputSeq = std::queue<int>());
-    int                 run(const std::queue<int>& inputSeq, Address instructionPointer)
+    int                 run(std::queue<int> inputSeq = std::queue<int>()) { return run(std::move(inputSeq), currIp); }
+    int                 run(std::queue<int> inputSeq, Address instructionPointer)
     {
         if (status == AWAITING_INPUT && !inputSeq.empty())
             setStatus(READY);
-        inputSequence = inputSeq;
+        if (status != READY)
+        {
+            std::cout<<"[MACHINE ERROR] Calling Run() on a non-READY machine. Current status: "<<currentStatusString()<<"\n";
+            return -1;
+        }
+
+        for ( ; !inputSeq.empty() ; inputSeq.pop()) inputSequence.push(inputSeq.front());
 #ifdef VERBOSE
-        std::cout<<"received input: ["; for (auto temp = inputSeq; !temp.empty(); temp.pop()) std::cout<<temp.front()<<" "; std::cout<<"]\n";
+        std::cout<<"Run({"; for (auto temp = inputSeq; !temp.empty(); temp.pop()) std::cout<<temp.front()<<" "; std::cout<<"},"<<instructionPointer<<")\n";
+        std::cout<<"current input queue: ["; for (auto temp = inputSequence; !temp.empty(); temp.pop()) std::cout<<temp.front()<<" "; std::cout<<"]\n";
 #endif
+
         for (currIp = instructionPointer; currIp < memo.size() && status == READY; )
         {
             if (Instruction::isInstruction(get(currIp)))

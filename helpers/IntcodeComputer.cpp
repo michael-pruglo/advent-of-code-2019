@@ -138,7 +138,7 @@ void IntcodeComputer::init(int noun, int verb)
 IntcodeComputer::Address IntcodeComputer::executeInstruction(IntcodeComputer::Instruction instruction, IntcodeComputer::Address ip)
 {
 #ifdef VERBOSE
-    std::cout<< "execute "<<instruction.opcode<<"(";
+    std::cout<< "execute __@"<<ip<<"__"<<instruction.opcode<<"(";
     for (int i = 0; i < instruction.parameters.size(); ++i)
         std::cout<<(instruction.isImmediateMode(i)?"":"@")<<
                     instruction.parameters[i]<<",";
@@ -203,7 +203,7 @@ void IntcodeComputer::setStatus(IntcodeComputer::Status st)
         case READY:
             status = READY;
 #ifdef VERBOSE
-            std::cout<<"[status] Machine set running.\n";
+            std::cout<<"[status] Machine set ready.\n";
 #endif
             break;
         case AWAITING_INPUT:
@@ -222,10 +222,5 @@ void IntcodeComputer::setStatus(IntcodeComputer::Status st)
             std::cout<<"[FATAL ERROR]: setStatus("<<st<<") - unknown status\n";
             exit(3);
     }
-}
-
-int IntcodeComputer::run(const std::queue<int>& inputSeq)
-{
-    return run(inputSeq, currIp);
 }
 

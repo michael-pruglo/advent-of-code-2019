@@ -29,6 +29,7 @@ int main()
         std::make_pair(std::string("tests/in23.txt"), 2369720),
         std::make_pair(std::string("tests/in24.txt"), 13933662)
     }));
+
     Test::runAmplifier(std::vector({
         std::make_pair(std::string("tests/in25.txt"), 43210),
         std::make_pair(std::string("tests/in26.txt"), 54321),
