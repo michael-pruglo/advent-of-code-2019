@@ -80,6 +80,9 @@
 				</MakeCommands>
 			</Target>
 		</Build>
+		<Unit filename="C:/Users/mickl/ClionProjects/untitled3/Solution.cpp">
+			<Option target="untitled3"/>
+		</Unit>
 		<Unit filename="C:/Users/mickl/ClionProjects/untitled3/Solution.hpp">
 			<Option target="untitled3"/>
 		</Unit>
@@ -90,6 +93,12 @@
 			<Option target="untitled3"/>
 		</Unit>
 		<Unit filename="C:/Users/mickl/ClionProjects/untitled3/main.cpp">
+			<Option target="untitled3"/>
+		</Unit>
+		<Unit filename="C:/Users/mickl/ClionProjects/untitled3/tests/IntCodeComputer/TestIntcodeComputer.cpp">
+			<Option target="untitled3"/>
+		</Unit>
+		<Unit filename="C:/Users/mickl/ClionProjects/untitled3/tests/IntCodeComputer/TestIntcodeComputer.hpp">
 			<Option target="untitled3"/>
 		</Unit>
 		<Unit filename="C:/Users/mickl/ClionProjects/untitled3/tests/Test.hpp">

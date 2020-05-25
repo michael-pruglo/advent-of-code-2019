@@ -122,6 +122,33 @@ untitled3/fast:
 	$(MAKE) -f CMakeFiles\untitled3.dir\build.make CMakeFiles/untitled3.dir/build
 .PHONY : untitled3/fast
 
+Solution.obj: Solution.cpp.obj
+
+.PHONY : Solution.obj
+
+# target to build an object file
+Solution.cpp.obj:
+	$(MAKE) -f CMakeFiles\untitled3.dir\build.make CMakeFiles/untitled3.dir/Solution.cpp.obj
+.PHONY : Solution.cpp.obj
+
+Solution.i: Solution.cpp.i
+
+.PHONY : Solution.i
+
+# target to preprocess a source file
+Solution.cpp.i:
+	$(MAKE) -f CMakeFiles\untitled3.dir\build.make CMakeFiles/untitled3.dir/Solution.cpp.i
+.PHONY : Solution.cpp.i
+
+Solution.s: Solution.cpp.s
+
+.PHONY : Solution.s
+
+# target to generate assembly for a file
+Solution.cpp.s:
+	$(MAKE) -f CMakeFiles\untitled3.dir\build.make CMakeFiles/untitled3.dir/Solution.cpp.s
+.PHONY : Solution.cpp.s
+
 helpers/IntcodeComputer.obj: helpers/IntcodeComputer.cpp.obj
 
 .PHONY : helpers/IntcodeComputer.obj
@@ -176,6 +203,33 @@ main.cpp.s:
 	$(MAKE) -f CMakeFiles\untitled3.dir\build.make CMakeFiles/untitled3.dir/main.cpp.s
 .PHONY : main.cpp.s
 
+tests/IntCodeComputer/TestIntcodeComputer.obj: tests/IntCodeComputer/TestIntcodeComputer.cpp.obj
+
+.PHONY : tests/IntCodeComputer/TestIntcodeComputer.obj
+
+# target to build an object file
+tests/IntCodeComputer/TestIntcodeComputer.cpp.obj:
+	$(MAKE) -f CMakeFiles\untitled3.dir\build.make CMakeFiles/untitled3.dir/tests/IntCodeComputer/TestIntcodeComputer.cpp.obj
+.PHONY : tests/IntCodeComputer/TestIntcodeComputer.cpp.obj
+
+tests/IntCodeComputer/TestIntcodeComputer.i: tests/IntCodeComputer/TestIntcodeComputer.cpp.i
+
+.PHONY : tests/IntCodeComputer/TestIntcodeComputer.i
+
+# target to preprocess a source file
+tests/IntCodeComputer/TestIntcodeComputer.cpp.i:
+	$(MAKE) -f CMakeFiles\untitled3.dir\build.make CMakeFiles/untitled3.dir/tests/IntCodeComputer/TestIntcodeComputer.cpp.i
+.PHONY : tests/IntCodeComputer/TestIntcodeComputer.cpp.i
+
+tests/IntCodeComputer/TestIntcodeComputer.s: tests/IntCodeComputer/TestIntcodeComputer.cpp.s
+
+.PHONY : tests/IntCodeComputer/TestIntcodeComputer.s
+
+# target to generate assembly for a file
+tests/IntCodeComputer/TestIntcodeComputer.cpp.s:
+	$(MAKE) -f CMakeFiles\untitled3.dir\build.make CMakeFiles/untitled3.dir/tests/IntCodeComputer/TestIntcodeComputer.cpp.s
+.PHONY : tests/IntCodeComputer/TestIntcodeComputer.cpp.s
+
 # Help Target
 help:
 	@echo The following are some of the valid targets for this Makefile:
@@ -185,12 +239,18 @@ help:
 	@echo ... untitled3
 	@echo ... edit_cache
 	@echo ... rebuild_cache
+	@echo ... Solution.obj
+	@echo ... Solution.i
+	@echo ... Solution.s
 	@echo ... helpers/IntcodeComputer.obj
 	@echo ... helpers/IntcodeComputer.i
 	@echo ... helpers/IntcodeComputer.s
 	@echo ... main.obj
 	@echo ... main.i
 	@echo ... main.s
+	@echo ... tests/IntCodeComputer/TestIntcodeComputer.obj
+	@echo ... tests/IntCodeComputer/TestIntcodeComputer.i
+	@echo ... tests/IntCodeComputer/TestIntcodeComputer.s
 .PHONY : help
 
 

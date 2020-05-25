@@ -29,7 +29,23 @@ queue
 -
 
 C:/Users/mickl/ClionProjects/untitled3/main.cpp
-tests/Test.hpp
+tests/IntCodeComputer/TestIntcodeComputer.hpp
+C:/Users/mickl/ClionProjects/untitled3/tests/IntCodeComputer/TestIntcodeComputer.hpp
+
+C:/Users/mickl/ClionProjects/untitled3/tests/IntCodeComputer/TestIntcodeComputer.cpp
+TestIntcodeComputer.hpp
+C:/Users/mickl/ClionProjects/untitled3/tests/IntCodeComputer/TestIntcodeComputer.hpp
+
+C:/Users/mickl/ClionProjects/untitled3/tests/IntCodeComputer/TestIntcodeComputer.hpp
+vector
+-
+string
+-
+functional
+-
+../../Solution.hpp
+C:/Users/mickl/ClionProjects/untitled3/Solution.hpp
+../Test.hpp
 C:/Users/mickl/ClionProjects/untitled3/tests/Test.hpp
 
 C:/Users/mickl/ClionProjects/untitled3/tests/Test.hpp
