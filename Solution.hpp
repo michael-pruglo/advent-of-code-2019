@@ -11,6 +11,7 @@
 #include <map>
 #include <set>
 #include "helpers/IntcodeComputer.hpp"
+#include "helpers/EmergencyHullPaintingRobot.hpp"
 
 class Solution
 {
@@ -18,7 +19,10 @@ public:
 
     auto run(const std::string& inFileName)
     {
-        return runComputer(inFileName);
+        std::ifstream inFile(inFileName);
+        EmergencyHullPaintingRobot ehpr;
+        ehpr.init(inFile);
+        return ehpr.run();
     }
 
 public:

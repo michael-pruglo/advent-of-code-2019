@@ -6,18 +6,18 @@
 
 #IncludeRegexTransform: 
 
-C:/Users/mickl/ClionProjects/untitled3/Solution.hpp
-fstream
--
-numeric
--
-algorithm
--
-map
+C:/Users/mickl/ClionProjects/untitled3/helpers/EmergencyHullPaintingRobot.cpp
+cassert
 -
 set
 -
-helpers/IntcodeComputer.hpp
+EmergencyHullPaintingRobot.hpp
+C:/Users/mickl/ClionProjects/untitled3/helpers/EmergencyHullPaintingRobot.hpp
+
+C:/Users/mickl/ClionProjects/untitled3/helpers/EmergencyHullPaintingRobot.hpp
+vector
+-
+IntcodeComputer.hpp
 C:/Users/mickl/ClionProjects/untitled3/helpers/IntcodeComputer.hpp
 
 C:/Users/mickl/ClionProjects/untitled3/helpers/IntcodeComputer.hpp
@@ -31,28 +31,4 @@ queue
 -
 unordered_map
 -
-
-C:/Users/mickl/ClionProjects/untitled3/tests/IntCodeComputer/TestIntcodeComputer.cpp
-TestIntcodeComputer.hpp
-C:/Users/mickl/ClionProjects/untitled3/tests/IntCodeComputer/TestIntcodeComputer.hpp
-
-C:/Users/mickl/ClionProjects/untitled3/tests/IntCodeComputer/TestIntcodeComputer.hpp
-vector
--
-string
--
-functional
--
-../../Solution.hpp
-C:/Users/mickl/ClionProjects/untitled3/Solution.hpp
-../Test.hpp
-C:/Users/mickl/ClionProjects/untitled3/tests/Test.hpp
-
-C:/Users/mickl/ClionProjects/untitled3/tests/Test.hpp
-iostream
--
-vector
--
-../Solution.hpp
-C:/Users/mickl/ClionProjects/untitled3/Solution.hpp
 

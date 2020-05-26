@@ -3,18 +3,25 @@
 
 CMakeFiles/untitled3.dir/Solution.cpp.obj: ../Solution.cpp
 CMakeFiles/untitled3.dir/Solution.cpp.obj: ../Solution.hpp
+CMakeFiles/untitled3.dir/Solution.cpp.obj: ../helpers/EmergencyHullPaintingRobot.hpp
 CMakeFiles/untitled3.dir/Solution.cpp.obj: ../helpers/IntcodeComputer.hpp
+
+CMakeFiles/untitled3.dir/helpers/EmergencyHullPaintingRobot.cpp.obj: ../helpers/EmergencyHullPaintingRobot.cpp
+CMakeFiles/untitled3.dir/helpers/EmergencyHullPaintingRobot.cpp.obj: ../helpers/EmergencyHullPaintingRobot.hpp
+CMakeFiles/untitled3.dir/helpers/EmergencyHullPaintingRobot.cpp.obj: ../helpers/IntcodeComputer.hpp
 
 CMakeFiles/untitled3.dir/helpers/IntcodeComputer.cpp.obj: ../helpers/IntcodeComputer.cpp
 CMakeFiles/untitled3.dir/helpers/IntcodeComputer.cpp.obj: ../helpers/IntcodeComputer.hpp
 
 CMakeFiles/untitled3.dir/main.cpp.obj: ../Solution.hpp
+CMakeFiles/untitled3.dir/main.cpp.obj: ../helpers/EmergencyHullPaintingRobot.hpp
 CMakeFiles/untitled3.dir/main.cpp.obj: ../helpers/IntcodeComputer.hpp
 CMakeFiles/untitled3.dir/main.cpp.obj: ../main.cpp
 CMakeFiles/untitled3.dir/main.cpp.obj: ../tests/IntCodeComputer/TestIntcodeComputer.hpp
 CMakeFiles/untitled3.dir/main.cpp.obj: ../tests/Test.hpp
 
 CMakeFiles/untitled3.dir/tests/IntCodeComputer/TestIntcodeComputer.cpp.obj: ../Solution.hpp
+CMakeFiles/untitled3.dir/tests/IntCodeComputer/TestIntcodeComputer.cpp.obj: ../helpers/EmergencyHullPaintingRobot.hpp
 CMakeFiles/untitled3.dir/tests/IntCodeComputer/TestIntcodeComputer.cpp.obj: ../helpers/IntcodeComputer.hpp
 CMakeFiles/untitled3.dir/tests/IntCodeComputer/TestIntcodeComputer.cpp.obj: ../tests/IntCodeComputer/TestIntcodeComputer.cpp
 CMakeFiles/untitled3.dir/tests/IntCodeComputer/TestIntcodeComputer.cpp.obj: ../tests/IntCodeComputer/TestIntcodeComputer.hpp
