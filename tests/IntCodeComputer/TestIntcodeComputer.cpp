@@ -50,7 +50,8 @@ void TestIntcodeComputer::run()
         std::make_pair(std::string("tests/IntCodeComputer/in/in32.txt"), 99ll), //reflexive output of the program itself
         std::make_pair(std::string("tests/IntCodeComputer/in/in33.txt"), 1219070632396864ll),
         std::make_pair(std::string("tests/IntCodeComputer/in/in34.txt"), 1125899906842624ll),
-        std::make_pair(std::string("tests/IntCodeComputer/in/in35.txt"), 2890527621ll)
+        std::make_pair(std::string("tests/IntCodeComputer/in/in35.txt"), 2890527621ll),
+        std::make_pair(std::string("tests/IntCodeComputer/in/in36.txt"), 66772ll)
     }));
 
     std::cout<<"\n\n";
