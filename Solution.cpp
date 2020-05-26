@@ -97,3 +97,22 @@ long long Solution::runAmplifierFeedbackloop(const std::string& inFileName)
     std::cout<<"from the seq "; for (auto& x: maxSeq) std::cout<<x<<" "; std::cout<<"\n";
     return maxRes;
 }
+
+void Solution::showMap(int droidI, int droidJ)
+{
+    for (int i = 0; i < H; ++i)
+    {
+        for (int j = 0; j < W; ++j) {
+            if (i==droidI && j==droidJ)
+                std::cout<<'D';
+            else
+                switch (map[i][j]) {
+                    case WALL: std::cout<<'*'; break;
+                    case EMPTY: std::cout<<'.'; break;
+                    case FINISH: std::cout<<'F'; break;
+                    case UNKNOWN: std::cout<<' '; break;
+                }
+        }
+        std::cout<<"\n";
+    }
+}

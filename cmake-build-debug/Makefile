@@ -149,6 +149,33 @@ Solution.cpp.s:
 	$(MAKE) -f CMakeFiles\untitled3.dir\build.make CMakeFiles/untitled3.dir/Solution.cpp.s
 .PHONY : Solution.cpp.s
 
+helpers/ArcadeCabinet.obj: helpers/ArcadeCabinet.cpp.obj
+
+.PHONY : helpers/ArcadeCabinet.obj
+
+# target to build an object file
+helpers/ArcadeCabinet.cpp.obj:
+	$(MAKE) -f CMakeFiles\untitled3.dir\build.make CMakeFiles/untitled3.dir/helpers/ArcadeCabinet.cpp.obj
+.PHONY : helpers/ArcadeCabinet.cpp.obj
+
+helpers/ArcadeCabinet.i: helpers/ArcadeCabinet.cpp.i
+
+.PHONY : helpers/ArcadeCabinet.i
+
+# target to preprocess a source file
+helpers/ArcadeCabinet.cpp.i:
+	$(MAKE) -f CMakeFiles\untitled3.dir\build.make CMakeFiles/untitled3.dir/helpers/ArcadeCabinet.cpp.i
+.PHONY : helpers/ArcadeCabinet.cpp.i
+
+helpers/ArcadeCabinet.s: helpers/ArcadeCabinet.cpp.s
+
+.PHONY : helpers/ArcadeCabinet.s
+
+# target to generate assembly for a file
+helpers/ArcadeCabinet.cpp.s:
+	$(MAKE) -f CMakeFiles\untitled3.dir\build.make CMakeFiles/untitled3.dir/helpers/ArcadeCabinet.cpp.s
+.PHONY : helpers/ArcadeCabinet.cpp.s
+
 helpers/EmergencyHullPaintingRobot.obj: helpers/EmergencyHullPaintingRobot.cpp.obj
 
 .PHONY : helpers/EmergencyHullPaintingRobot.obj
@@ -269,6 +296,9 @@ help:
 	@echo ... Solution.obj
 	@echo ... Solution.i
 	@echo ... Solution.s
+	@echo ... helpers/ArcadeCabinet.obj
+	@echo ... helpers/ArcadeCabinet.i
+	@echo ... helpers/ArcadeCabinet.s
 	@echo ... helpers/EmergencyHullPaintingRobot.obj
 	@echo ... helpers/EmergencyHullPaintingRobot.i
 	@echo ... helpers/EmergencyHullPaintingRobot.s

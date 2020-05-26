@@ -3,8 +3,13 @@
 
 CMakeFiles/untitled3.dir/Solution.cpp.obj: ../Solution.cpp
 CMakeFiles/untitled3.dir/Solution.cpp.obj: ../Solution.hpp
+CMakeFiles/untitled3.dir/Solution.cpp.obj: ../helpers/ArcadeCabinet.hpp
 CMakeFiles/untitled3.dir/Solution.cpp.obj: ../helpers/EmergencyHullPaintingRobot.hpp
 CMakeFiles/untitled3.dir/Solution.cpp.obj: ../helpers/IntcodeComputer.hpp
+
+CMakeFiles/untitled3.dir/helpers/ArcadeCabinet.cpp.obj: ../helpers/ArcadeCabinet.cpp
+CMakeFiles/untitled3.dir/helpers/ArcadeCabinet.cpp.obj: ../helpers/ArcadeCabinet.hpp
+CMakeFiles/untitled3.dir/helpers/ArcadeCabinet.cpp.obj: ../helpers/IntcodeComputer.hpp
 
 CMakeFiles/untitled3.dir/helpers/EmergencyHullPaintingRobot.cpp.obj: ../helpers/EmergencyHullPaintingRobot.cpp
 CMakeFiles/untitled3.dir/helpers/EmergencyHullPaintingRobot.cpp.obj: ../helpers/EmergencyHullPaintingRobot.hpp
@@ -14,6 +19,7 @@ CMakeFiles/untitled3.dir/helpers/IntcodeComputer.cpp.obj: ../helpers/IntcodeComp
 CMakeFiles/untitled3.dir/helpers/IntcodeComputer.cpp.obj: ../helpers/IntcodeComputer.hpp
 
 CMakeFiles/untitled3.dir/main.cpp.obj: ../Solution.hpp
+CMakeFiles/untitled3.dir/main.cpp.obj: ../helpers/ArcadeCabinet.hpp
 CMakeFiles/untitled3.dir/main.cpp.obj: ../helpers/EmergencyHullPaintingRobot.hpp
 CMakeFiles/untitled3.dir/main.cpp.obj: ../helpers/IntcodeComputer.hpp
 CMakeFiles/untitled3.dir/main.cpp.obj: ../main.cpp
@@ -21,6 +27,7 @@ CMakeFiles/untitled3.dir/main.cpp.obj: ../tests/IntCodeComputer/TestIntcodeCompu
 CMakeFiles/untitled3.dir/main.cpp.obj: ../tests/Test.hpp
 
 CMakeFiles/untitled3.dir/tests/IntCodeComputer/TestIntcodeComputer.cpp.obj: ../Solution.hpp
+CMakeFiles/untitled3.dir/tests/IntCodeComputer/TestIntcodeComputer.cpp.obj: ../helpers/ArcadeCabinet.hpp
 CMakeFiles/untitled3.dir/tests/IntCodeComputer/TestIntcodeComputer.cpp.obj: ../helpers/EmergencyHullPaintingRobot.hpp
 CMakeFiles/untitled3.dir/tests/IntCodeComputer/TestIntcodeComputer.cpp.obj: ../helpers/IntcodeComputer.hpp
 CMakeFiles/untitled3.dir/tests/IntCodeComputer/TestIntcodeComputer.cpp.obj: ../tests/IntCodeComputer/TestIntcodeComputer.cpp
