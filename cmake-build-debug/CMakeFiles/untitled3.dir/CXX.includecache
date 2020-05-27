@@ -28,14 +28,36 @@ C:/Users/mickl/ClionProjects/untitled3/helpers/EmergencyHullPaintingRobot.hpp
 helpers/ArcadeCabinet.hpp
 C:/Users/mickl/ClionProjects/untitled3/helpers/ArcadeCabinet.hpp
 
+C:/Users/mickl/ClionProjects/untitled3/helpers/ArcadeCabinet.cpp
+ArcadeCabinet.hpp
+C:/Users/mickl/ClionProjects/untitled3/helpers/ArcadeCabinet.hpp
+
 C:/Users/mickl/ClionProjects/untitled3/helpers/ArcadeCabinet.hpp
 vector
 -
 IntcodeComputer.hpp
 C:/Users/mickl/ClionProjects/untitled3/helpers/IntcodeComputer.hpp
 
+C:/Users/mickl/ClionProjects/untitled3/helpers/EmergencyHullPaintingRobot.cpp
+cassert
+-
+set
+-
+EmergencyHullPaintingRobot.hpp
+C:/Users/mickl/ClionProjects/untitled3/helpers/EmergencyHullPaintingRobot.hpp
+
 C:/Users/mickl/ClionProjects/untitled3/helpers/EmergencyHullPaintingRobot.hpp
 vector
+-
+IntcodeComputer.hpp
+C:/Users/mickl/ClionProjects/untitled3/helpers/IntcodeComputer.hpp
+
+C:/Users/mickl/ClionProjects/untitled3/helpers/IntcodeComputer.cpp
+iomanip
+-
+windows.h
+-
+cassert
 -
 IntcodeComputer.hpp
 C:/Users/mickl/ClionProjects/untitled3/helpers/IntcodeComputer.hpp

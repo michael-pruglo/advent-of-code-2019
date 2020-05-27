@@ -7,7 +7,7 @@
 #include <cassert>
 #include "IntcodeComputer.hpp"
 
-const std::unordered_map<IntcodeComputer::Instruction::Opcode, int> IntcodeComputer::Instruction::paramNo =
+const std::unordered_map<IntcodeComputer::Instruction::Opcode_t, int> IntcodeComputer::Instruction::paramNo =
         {
                 {99, 0},
                 {1, 3},
@@ -27,8 +27,8 @@ bool IntcodeComputer::Instruction::isInstruction(IntcodeComputer::Mem_t value)
     return paramNo.count(tryOpcode);
 }
 
-std::pair<IntcodeComputer::Instruction::Opcode,
-          IntcodeComputer::Instruction::ModeCollection>
+std::pair<IntcodeComputer::Instruction::Opcode_t,
+          IntcodeComputer::Instruction::ModeCollection_t>
           IntcodeComputer::Instruction::parseValue(IntcodeComputer::Mem_t value)
 {
     Mem_t opcode = value % 100;
@@ -105,13 +105,13 @@ void drawLine(int len, std::ostream& os = std::cout)
     std::cout<<"\n";
 }
 
-void IntcodeComputer::show(Address highlight, std::ostream& os) const
+void IntcodeComputer::show(Addr_t highlight, std::ostream& os) const
 {
     show(0, memo.size(), highlight, os);
 }
 
-void IntcodeComputer::show(Address startAdress, Address endAdress,
-                           Address highlight,
+void IntcodeComputer::show(Addr_t startAdress, Addr_t endAdress,
+                           Addr_t highlight,
                            std::ostream& os) const
 {
     const int COLUMNS = 10, ADDRESS_W = 4, ITEM_W = 10, LINE_LEN = 1+ADDRESS_W+2+COLUMNS*ITEM_W,
@@ -137,7 +137,7 @@ void IntcodeComputer::show(Address startAdress, Address endAdress,
     changeColor();
 }
 
-void IntcodeComputer::output(Address ip, IntcodeComputer::Mem_t val, std::ostream& os)
+void IntcodeComputer::output(Addr_t ip, IntcodeComputer::Mem_t val, std::ostream& os)
 {
 #ifdef VERBOSE
     changeColor(BLACK, GREEN);
@@ -161,7 +161,7 @@ void IntcodeComputer::init(IntcodeComputer::Mem_t noun, IntcodeComputer::Mem_t v
     set(2, verb);
 }
 
-IntcodeComputer::Address IntcodeComputer::executeInstruction(IntcodeComputer::Instruction instruction, IntcodeComputer::Address ip)
+IntcodeComputer::Addr_t IntcodeComputer::executeInstruction(IntcodeComputer::Instruction instruction, IntcodeComputer::Addr_t ip)
 {
 #ifdef VERBOSE
     std::cout<< "execute __@"<<ip<<"__"<<instruction.opcode<<"(";
@@ -229,9 +229,9 @@ IntcodeComputer::Address IntcodeComputer::executeInstruction(IntcodeComputer::In
     show(ip);
 #endif
 
-    Address newIp = status == READY ?
+    Addr_t newIp = status == READY ?
             ip + Instruction::paramNo.at(instruction.opcode)+1 :
-            ip;
+                   ip;
     return newIp;
 }
 
@@ -263,7 +263,7 @@ void IntcodeComputer::setStatus(IntcodeComputer::Status st)
     }
 }
 
-IntcodeComputer::Mem_t IntcodeComputer::run(std::queue<IntcodeComputer::Mem_t> inputSeq, IntcodeComputer::Address instructionPointer)
+IntcodeComputer::Mem_t IntcodeComputer::run(std::queue<IntcodeComputer::Mem_t> inputSeq, IntcodeComputer::Addr_t instructionPointer)
 {
     if (status == AWAITING_INPUT && !inputSeq.empty())
         setStatus(READY);
