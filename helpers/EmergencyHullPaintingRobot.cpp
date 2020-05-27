@@ -18,7 +18,7 @@ int EmergencyHullPaintingRobot::run()
     {
         //std::cout<<"ij: "<<i<<", "<<j<<" -> ";
         ic.run(std::queue<long long>({map[i][j]}));
-        auto output = ic.getOutput();
+        auto output = ic.grabOutput();
         assert(output.size()==2);
 
         if (map[i][j] != output[0])

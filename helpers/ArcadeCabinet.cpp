@@ -22,7 +22,7 @@ int ArcadeCabinet::run()
         }
         //std::cout<<"ij: "<<i<<", "<<j<<" -> ";
         ic.run(input);
-        auto output = ic.getOutput();
+        auto output = ic.grabOutput();
         for (int i = 0; i < output.size(); i+=3)
         {
             auto x = output[i], y = output[i+1], id = output[i+2];

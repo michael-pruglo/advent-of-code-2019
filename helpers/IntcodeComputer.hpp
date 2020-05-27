@@ -75,7 +75,7 @@ public:
     inline int          size() const { return memo.size(); }
     inline bool         wasTerminated() const { return status==TERMINATED; }
     inline std::string  currentStatusString() const { return status == READY ? "READY" : status == TERMINATED ? "TERMINATED" : status == AWAITING_INPUT ? "AWAITING_INPUT" : "UNKNOWN"; }
-    inline auto         getOutput() { auto res = outputSeqeunce; outputSeqeunce.clear(); return res; }
+    inline auto         grabOutput() { auto res = outputSeqeunce; outputSeqeunce.clear(); return res; }
 
     void                reset();
     void                init(Mem_t noun, Mem_t verb);

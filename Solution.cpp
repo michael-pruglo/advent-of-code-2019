@@ -9,7 +9,7 @@ long long Solution::runComputer(const std::string& inFileName)
 
     IntcodeComputer ic(inFile);
     auto res = ic.run();
-    auto residualOutput = ic.getOutput();
+    auto residualOutput = ic.grabOutput();
     if (residualOutput.size()>1) { std::cout << "\tvvv [bottom] has residual output ["; for (auto& x: residualOutput) std::cout << x << " "; std::cout << "] \n";}
     return res;
 }
@@ -74,7 +74,7 @@ long long Solution::runAmplifierFeedbackloop(const std::string& inFileName)
                 for (auto x: currout) nextInput.push(x);
                 //ic[i].reset();
                 currRes = ic[i].run(nextInput);
-                currout = ic[i].getOutput();
+                currout = ic[i].grabOutput();
             } else
                 ++terminateSum;
 
@@ -98,21 +98,12 @@ long long Solution::runAmplifierFeedbackloop(const std::string& inFileName)
     return maxRes;
 }
 
-void Solution::showMap(int droidI, int droidJ)
+void Solution::showMap()
 {
-    for (int i = 0; i < H; ++i)
+    for (const auto& row: map)
     {
-        for (int j = 0; j < W; ++j) {
-            if (i==droidI && j==droidJ)
-                std::cout<<'D';
-            else
-                switch (map[i][j]) {
-                    case WALL: std::cout<<'*'; break;
-                    case EMPTY: std::cout<<'.'; break;
-                    case FINISH: std::cout<<'F'; break;
-                    case UNKNOWN: std::cout<<' '; break;
-                }
-        }
+        for (const auto& cell : row)
+            std::cout<<cell;
         std::cout<<"\n";
     }
 }
