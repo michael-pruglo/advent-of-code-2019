@@ -1,6 +1,7 @@
 //
 // Created by Michael on 05/22/20.
 //
+//#define VERBOSE
 
 #include <iomanip>
 #include <windows.h>
@@ -63,9 +64,6 @@ IntcodeComputer::IntcodeComputer(std::istream& is)
 {
     readf(is);
     startingState = memo;
-    setStatus(READY);
-    currIp = 0;
-    relativeBase = 0;
 }
 
 void IntcodeComputer::readf(std::istream& is)
@@ -137,159 +135,102 @@ void IntcodeComputer::show(Addr_t startAdress, Addr_t endAdress,
     changeColor();
 }
 
-void IntcodeComputer::output(Addr_t ip, IntcodeComputer::Mem_t val, std::ostream& os)
-{
-#ifdef VERBOSE
-    changeColor(BLACK, GREEN);
-    std::cout << "@" << ip << " output: " << val << "\n";
-    changeColor();
-#endif
-    outputSeqeunce.push_back(val);
-}
-
 void IntcodeComputer::reset()
 {
     memo = startingState;
-    setStatus(READY);
-    currIp = 0;
+    terminated = false;
+    ip = 0;
     relativeBase = 0;
 }
 
-void IntcodeComputer::init(IntcodeComputer::Mem_t noun, IntcodeComputer::Mem_t verb)
+IntcodeComputer::Mem_t IntcodeComputer::run(const std::vector<IntcodeComputer::Mem_t>& inputSeq, IntcodeComputer::Addr_t instructionPointer)
 {
-    set(1, noun);
-    set(2, verb);
-}
+    for (auto x: inputSeq) inputSequence.push(x);
+    #ifdef VERBOSE
+        std::cout<<"Run({"; for (auto temp = inputSeq; !temp.empty(); temp.pop()) std::cout<<temp.front()<<" "; std::cout<<"},"<<instructionPointer<<")\n";
+        std::cout<<"current input queue: ["; for (auto temp = inputSequence; !temp.empty(); temp.pop()) std::cout<<temp.front()<<" "; std::cout<<"]\n";
+    #endif
 
-IntcodeComputer::Addr_t IntcodeComputer::executeInstruction(IntcodeComputer::Instruction instruction, IntcodeComputer::Addr_t ip)
-{
-#ifdef VERBOSE
-    std::cout<< "execute __@"<<ip<<"__"<<instruction.opcode<<"(";
-    for (int i = 0; i < instruction.parameters.size(); ++i)
+    for (ip = instructionPointer; ip < memo.size(); )
     {
-        auto pmode = instruction.getParamMode(i);
-        std::cout<<(pmode==Instruction::IMMEDIATE?"":pmode==Instruction::POSITION?"@":"&")<<
-                 instruction.parameters[i]<<",";
-    }
-    std::cout<<")\n";
-    std::cout<<"relative base = "<<relativeBase<<"\n";
-#endif
-    switch (instruction.opcode) {
-        case 99:
-            setStatus(TERMINATED);
-            return -1;
+        if (Instruction::isInstruction(get(ip)))
+            //ip = executeInstruction(Instruction(*this, ip), ip);
+        {
+            Instruction instruction(*this, ip);
+            #ifdef VERBOSE
+                std::cout<< "execute __@"<<ip<<"__"<<instruction.opcode<<"(";
+                for (int i = 0; i < instruction.parameters.size(); ++i)
+                {
+                    auto pmode = instruction.getParamMode(i);
+                    std::cout<<(pmode==Instruction::IMMEDIATE?"":pmode==Instruction::POSITION?"@":"&")<<
+                             instruction.parameters[i]<<",";
+                }
+                std::cout<<")\n";
+                std::cout<<"relative base = "<<relativeBase<<"\n";
+            #endif
+            switch (instruction.opcode) {
+                case 99:
+                    terminated = true;
+                    return result();
 
-        case 1: //add two parameters and write to address
-        case 2: //mul two parameters and write to address
-            set(instruction.paramAsAddress(2), instruction.opcode == 1 ?
-                                            instruction.param(0) + instruction.param(1) :
-                                            instruction.param(0) * instruction.param(1));
-            break;
+                case 1: //add two parameters and write to address
+                case 2: //mul two parameters and write to address
+                    set(instruction.paramAsAddress(2), instruction.opcode == 1 ?
+                                                       instruction.param(0) + instruction.param(1) :
+                                                       instruction.param(0) * instruction.param(1));
+                    break;
 
-        case 3: //write INPUT to address
-            //assert(!inputSequence.empty());
-            if (inputSequence.empty())
-                setStatus(AWAITING_INPUT);
-            else
-            {
-                //not without mode
-                set(instruction.paramAsAddress(0), inputSequence.front());
-                inputSequence.pop();
+                case 3: //write INPUT to address
+                    //assert(!inputSequence.empty());
+                    if (inputSequence.empty())
+                        return -1;
+                    else {
+                        //not without mode
+                        set(instruction.paramAsAddress(0), inputSequence.front());
+                        inputSequence.pop();
+                    }
+                    break;
+
+                case 4: //output the value at the address
+                    outputSeqeunce.push_back(instruction.param(0));
+                    break;
+
+                case 5: //jump-if-true
+                case 6: //jump-if-false
+                    if (instruction.param(0) && instruction.opcode == 5
+                        || !instruction.param(0) && instruction.opcode == 6)
+                        ip = instruction.param(1);
+                    else
+                        ip += Instruction::paramNo.at(instruction.opcode) + 1;
+                    break;
+
+
+                case 7: //less than - evaluate and write to address
+                case 8: //equals - evaluate and write to address
+                    set(instruction.paramAsAddress(2), instruction.opcode == 7 ?
+                                                       instruction.param(0) < instruction.param(1) :
+                                                       instruction.param(0) == instruction.param(1));
+                    break;
+
+                case 9: //adjust the relative base
+                    relativeBase += instruction.param(0);
+                    break;
+
+                default:
+                    std::cout<<"[FATAL ERROR] Unsupported instruction: "<<instruction.opcode<<"\n";
+                    exit(5);
             }
-            break;
+            #ifdef VERBOSE
+                        show(ip);
+            #endif
 
-        case 4: //output the value at the address
-            output(ip, instruction.param(0));
-            break;
-
-        case 5: //jump-if-true
-        case 6: //jump-if-false
-            if (instruction.param(0) && instruction.opcode==5
-                ||!instruction.param(0) && instruction.opcode==6)
-                return instruction.param(1);
-            else
-                break;
-
-        case 7: //less than - evaluate and write to address
-        case 8: //equals - evaluate and write to address
-            set(instruction.paramAsAddress(2), instruction.opcode == 7 ?
-                                              instruction.param(0) < instruction.param(1) :
-                                              instruction.param(0) == instruction.param(1));
-            break;
-
-        case 9: //adjust the relative base
-            relativeBase += instruction.param(0);
-            break;
-
-        default:
-            std::cout<<"[FATAL ERROR] Unsupported instruction: "<<instruction.opcode<<"\n";
-            exit(5);
-    }
-#ifdef VERBOSE
-    show(ip);
-#endif
-
-    Addr_t newIp = status == READY ?
-            ip + Instruction::paramNo.at(instruction.opcode)+1 :
-                   ip;
-    return newIp;
-}
-
-void IntcodeComputer::setStatus(IntcodeComputer::Status st)
-{
-    switch (st)
-    {
-        case READY:
-            status = READY;
-#ifdef VERBOSE
-            std::cout<<"[status] Machine set ready.\n";
-#endif
-            break;
-        case AWAITING_INPUT:
-            status = AWAITING_INPUT;
-#ifdef VERBOSE
-            std::cout<<"[status] Machine paused. Awaiting input.\n";
-#endif
-            break;
-        case TERMINATED:
-            status = TERMINATED;
-#ifdef VERBOSE
-        std::cout<<"[status] Machine terminated.\n";
-#endif
-            break;
-        default:
-            std::cout<<"[FATAL ERROR]: setStatus("<<st<<") - unknown status\n";
-            exit(3);
-    }
-}
-
-IntcodeComputer::Mem_t IntcodeComputer::run(std::queue<IntcodeComputer::Mem_t> inputSeq, IntcodeComputer::Addr_t instructionPointer)
-{
-    if (status == AWAITING_INPUT && !inputSeq.empty())
-        setStatus(READY);
-    if (status != READY)
-    {
-        std::cout<<"[MACHINE ERROR] Calling Run() on a non-READY machine. Current status: "<<currentStatusString()<<"\n";
-        return -1;
-    }
-
-    for ( ; !inputSeq.empty() ; inputSeq.pop()) inputSequence.push(inputSeq.front());
-#ifdef VERBOSE
-    std::cout<<"Run({"; for (auto temp = inputSeq; !temp.empty(); temp.pop()) std::cout<<temp.front()<<" "; std::cout<<"},"<<instructionPointer<<")\n";
-    std::cout<<"current input queue: ["; for (auto temp = inputSequence; !temp.empty(); temp.pop()) std::cout<<temp.front()<<" "; std::cout<<"]\n";
-#endif
-
-    for (currIp = instructionPointer; currIp < memo.size() && status == READY; )
-    {
-        if (Instruction::isInstruction(get(currIp)))
-            currIp = executeInstruction(Instruction(*this, currIp), currIp);
+            if (instruction.opcode!=5&&instruction.opcode!=6)
+                ip += Instruction::paramNo.at(instruction.opcode) + 1;
+        }
         else
-            ++currIp;
+            ++ip;
     }
 
-#ifdef VERBOSE
-    std::cout << "returning with status: " << currentStatusString() << "\n";
-#endif
-    return result();
+    return -2;
 }
 

@@ -11,8 +11,6 @@
 #include <map>
 #include <set>
 #include "helpers/IntcodeComputer.hpp"
-#include "helpers/EmergencyHullPaintingRobot.hpp"
-#include "helpers/ArcadeCabinet.hpp"
 
 class Solution
 {
@@ -36,7 +34,7 @@ private:
             case EAST : return WEST;
         }
     }
-    Cell move(Movement mov) { return Cell(ic.run(std::queue<long long>({mov}))); }
+    Cell move(Movement mov) { return Cell(ic.run({mov})); }
     void showMap();
 
 public:
@@ -69,8 +67,8 @@ public:
                             + funC + '\n'
                             + 'n' + '\n';
 
-        std::queue<long long> inqueue;
-        for (auto& ch: input) inqueue.push(ch);
+        std::vector<long long> inqueue;
+        for (auto& ch: input) inqueue.push_back(ch);
         auto res = ic.run(inqueue);
 
         auto out = ic.grabOutput();

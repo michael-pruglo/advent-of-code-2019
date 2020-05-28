@@ -29,7 +29,7 @@ long long Solution::runAmplifier(const std::string& inFileName)
     do {
         long long currRes = 0;
         for (int i = 0; i < N; ++i)
-            currRes = ic[i].run(std::queue<long long>({phaseSettingSequence[i], currRes}));
+            currRes = ic[i].run({phaseSettingSequence[i], currRes});
 
         if (maxRes < currRes)
         {
@@ -69,9 +69,8 @@ long long Solution::runAmplifierFeedbackloop(const std::string& inFileName)
             if (!ic[i].wasTerminated())
             {
                 //std::cout<<"=========machine "<<i<<"\n";
-                std::queue<long long> nextInput;
-                if (firstRunFlag) nextInput.push(phaseSettingSequence[i]);
-                for (auto x: currout) nextInput.push(x);
+                std::vector<long long> nextInput = currout;
+                if (firstRunFlag) nextInput.insert(nextInput.begin(), phaseSettingSequence[i]);
                 //ic[i].reset();
                 currRes = ic[i].run(nextInput);
                 currout = ic[i].grabOutput();
