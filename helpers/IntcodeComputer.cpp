@@ -141,6 +141,8 @@ void IntcodeComputer::reset()
     terminated = false;
     ip = 0;
     relativeBase = 0;
+    std::queue<Mem_t>().swap(inputSequence);
+    outputSequence.clear();
 }
 
 IntcodeComputer::Mem_t IntcodeComputer::run(const std::vector<IntcodeComputer::Mem_t>& inputSeq, IntcodeComputer::Addr_t instructionPointer)
@@ -181,7 +183,6 @@ IntcodeComputer::Mem_t IntcodeComputer::run(const std::vector<IntcodeComputer::M
                     break;
 
                 case 3: //write INPUT to address
-                    //assert(!inputSequence.empty());
                     if (inputSequence.empty())
                         return -1;
                     else {
@@ -192,7 +193,7 @@ IntcodeComputer::Mem_t IntcodeComputer::run(const std::vector<IntcodeComputer::M
                     break;
 
                 case 4: //output the value at the address
-                    outputSeqeunce.push_back(instruction.param(0));
+                    outputSequence.push_back(instruction.param(0));
                     break;
 
                 case 5: //jump-if-true

@@ -14,29 +14,17 @@
 
 class Solution
 {
-    enum Movement { NORTH=1, SOUTH=2, WEST=3, EAST=4};
-    typedef char Cell;
-    const int W = 50, H = 50;
-    std::vector<std::vector<Cell>> map = std::vector<std::vector<Cell>>(H,
-                                                                  std::vector<Cell>(W, ' '));
-    std::vector<std::vector<bool>> visited = std::vector<std::vector<bool>>(H,
-                                                                        std::vector<bool>(W, false));
-    int finishI=-1, finishJ=-1;
-
+    const int W = 100, H = W;
+    std::vector<std::vector<int>> map = std::vector<std::vector<int>>(H, std::vector<int>(W));
     IntcodeComputer ic;
 
-private:
-    Movement opposite(Movement mov) {
-        switch (mov) {
-            case NORTH : return SOUTH;
-            case SOUTH : return NORTH;
-            case WEST : return EAST;
-            case EAST : return WEST;
-        }
-    }
-    Cell move(Movement mov) { return Cell(ic.run({mov})); }
-    void showMap();
 
+    bool get(int i, int j)
+    {
+        bool res = ic.run({j, i});
+        ic.reset();
+        return res;
+    }
 public:
 
     auto run(const std::string& inFileName)
@@ -44,39 +32,19 @@ public:
         std::ifstream inFile(inFileName);
         ic = IntcodeComputer(inFile);
 
-        /*ic.run();
-        auto output = ic.grabOutput();
-        int n=0, m=0;
-        for (char ch: output)
-            ch==10 ? ++n,m=0 : map[n][m++] = ch;
 
-        showMap();
+//        for (int i = 85; i < 110; ++i, std::cout<<"\n")
+//            for (int j = 70; j < 120; ++j)
+//                std::cout<<(get(i, j)?10'000*(j-W+1) + i==860096?'-':'#':'.');
 
-        std::cout<<"newline = "<<int('\n')<<"\n";
-        ic.reset();*/
-        ic.set(0, 2);
-
-
-        std::string mmr =  "A,B,A,C,A,B,C,B,C,A";
-        std::string funA = "L,12,R,4,R,4,L,6";
-        std::string funB = "L,12,R,4,R,4,R,12";
-        std::string funC = "L,10,L,6,R,4";
-        std::string input = mmr + '\n'
-                            + funA + '\n'
-                            + funB + '\n'
-                            + funC + '\n'
-                            + 'n' + '\n';
-
-        std::vector<long long> inqueue;
-        for (auto& ch: input) inqueue.push_back(ch);
-        auto res = ic.run(inqueue);
-
-        auto out = ic.grabOutput();
-        for (auto& x: out) std::cout<<char(x);
-
-        std::cout<<"\n\n\n==end\n";
-
-        return res;
+        const int LIM = 99999;
+        int j;
+        for (j = W; !get(H*2-5, j); ++j);
+        for (int i = H*2-5; i < LIM; ++i%1000?std::cout:std::cout<<i<<"\n")
+            for (; get(i, j); ++j)
+                if (get(i+(H-1), j-(W-1)))
+                    return 10'000*(j-W+1) + i;
+        return -1;
     }
 
 public:

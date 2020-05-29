@@ -33,7 +33,7 @@ public:
     }
     inline Mem_t        result() const
     {
-        return outputSeqeunce.empty() ? _get_const(0) : outputSeqeunce.back();
+        return outputSequence.empty() ? _get_const(0) : outputSequence.back();
     }
     inline int          size() const
     {
@@ -45,7 +45,7 @@ public:
     }
     inline auto         grabOutput()
     {
-        auto res = outputSeqeunce; outputSeqeunce.clear(); return res;
+        auto res = outputSequence; outputSequence.clear(); return res;
     }
 
     void                reset();
@@ -67,7 +67,7 @@ private:
     Addr_t              relativeBase = 0;
 
     std::queue<Mem_t>   inputSequence;
-    std::vector<Mem_t>  outputSeqeunce;
+    std::vector<Mem_t>  outputSequence;
 
     struct Instruction
     {

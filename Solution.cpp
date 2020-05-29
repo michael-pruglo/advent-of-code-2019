@@ -96,13 +96,3 @@ long long Solution::runAmplifierFeedbackloop(const std::string& inFileName)
     std::cout<<"from the seq "; for (auto& x: maxSeq) std::cout<<x<<" "; std::cout<<"\n";
     return maxRes;
 }
-
-void Solution::showMap()
-{
-    for (const auto& row: map)
-    {
-        for (const auto& cell : row)
-            std::cout<<cell;
-        std::cout<<"\n";
-    }
-}
