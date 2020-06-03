@@ -162,8 +162,9 @@ IntcodeComputer::Mem_t IntcodeComputer::run(const std::vector<IntcodeComputer::M
 
     for (ip = instructionPointer; ip < memo.size(); )
     {
-        if (Instruction::isInstruction(get(ip)))
-            //ip = executeInstruction(Instruction(*this, ip), ip);
+        if (!Instruction::isInstruction(get(ip)))
+            ++ip;
+        else
         {
             Instruction instruction(*this, ip);
             #ifdef VERBOSE
@@ -235,8 +236,6 @@ IntcodeComputer::Mem_t IntcodeComputer::run(const std::vector<IntcodeComputer::M
 
             ip += Instruction::paramNo.at(instruction.opcode) + 1;
         }
-        else
-            ++ip;
     }
 
     return -2;
@@ -251,7 +250,12 @@ std::string IntcodeComputer::disassemble()
     for (Addr_t ip; ip < memo.size(); )
     {
         ss<<"["<<std::setw(5)<<ip<<"]:    ";
-        if (Instruction::isInstruction(get(ip)))
+        if (!Instruction::isInstruction(get(ip)))
+        {
+            ss<<get(ip)<<"\t\t'"<<char(get(ip))<<"'"<<"\n";
+            ++ip;
+        }
+        else
         {
             Instruction instruction(*this, ip);
             int paramNo = Instruction::paramNo.at(instruction.opcode);
@@ -262,24 +266,20 @@ std::string IntcodeComputer::disassemble()
 
             switch(instruction.opcode)
             {
-                case  1: ss<<"memo["<<_0raw<<"] = "<<_1<<" + "<<_2<<";\n"; break;
-                case  2: ss<<"memo["<<_0raw<<"] = "<<_1<<" * "<<_2<<";\n"; break;
-                case  3: ss<<"memo["<<_0raw<<"] = __INPUT;\n"; break;
-                case  4: ss<<"__OUTPUT("<<_0<<");\n"; break;
-                case  5: ss<<"jtrue    "; break;
-                case  6: ss<<"jfalse   "; break;
-                case  7: ss<<"writeLess"; break;
-                case  8: ss<<"writeEq  "; break;
-                case  9: ss<<"incrRB   "; break;
+                case  1: ss<<"memo["<<_0raw<<"] = "<<_1<<" + "<<_2; break;
+                case  2: ss<<"memo["<<_0raw<<"] = "<<_1<<" * "<<_2; break;
+                case  3: ss<<"memo["<<_0raw<<"] = __INPUT"; break;
+                case  4: ss<<"__OUTPUT("<<_0<<")"; break;
+                case  5: ss<<"if ("<<_0<<") goto "<<_1; break;
+                case  6: ss<<"if (NOT "<<_0<<") goto "<<_1; break;
+                case  7: ss<<"memo["<<_2raw<<"] = bool( "<<_0<<" < "<<_1<<" )"; break;
+                case  8: ss<<"memo["<<_2raw<<"] = bool( "<<_0<<" == "<<_1<<" )"; break;
+                case  9: ss<<"__RB += "<<_0; break;
                 case 99: ss<<"__EXIT()"; break;
             }
+            ss << ";\n";
 
             ip += paramNo + 1;
-        }
-        else
-        {
-            ss<<get(ip)<<"\t\t'"<<char(get(ip))<<"'"<<"\n";
-            ++ip;
         }
     }
 
