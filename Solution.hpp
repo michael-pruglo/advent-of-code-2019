@@ -57,12 +57,28 @@ public:
         ic = IntcodeComputerASCII(inFile);
 
         auto res = test(""
+//                    "OR E J\n"
+//                    "AND I J\n"
+//
+//                    "OR H J\n"
+//
+//                    "AND D J\n"
+                    "OR B T\n"
+                    "AND C T\n"
+                    "NOT T T\n"
+
                     "OR E J\n"
                     "AND I J\n"
-
                     "OR H J\n"
 
                     "AND D J\n"
+
+                    "AND T J\n"
+
+                    "NOT A T\n"
+                    "OR T J\n"
+
+
                     "RUN\n");
 
         return res;
