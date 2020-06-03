@@ -1,6 +1,7 @@
 file(REMOVE_RECURSE
   "CMakeFiles/untitled3.dir/Solution.cpp.obj"
   "CMakeFiles/untitled3.dir/helpers/IntcodeComputer.cpp.obj"
+  "CMakeFiles/untitled3.dir/helpers/IntcodeComputerASCII.cpp.obj"
   "CMakeFiles/untitled3.dir/main.cpp.obj"
   "CMakeFiles/untitled3.dir/tests/IntCodeComputer/TestIntcodeComputer.cpp.obj"
   "libuntitled3.dll.a"

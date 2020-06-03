@@ -11,40 +11,61 @@
 #include <map>
 #include <set>
 #include "helpers/IntcodeComputer.hpp"
+#include "helpers/IntcodeComputerASCII.hpp"
 
 class Solution
 {
-    const int W = 100, H = W;
-    std::vector<std::vector<int>> map = std::vector<std::vector<int>>(H, std::vector<int>(W));
-    IntcodeComputer ic;
+    IntcodeComputerASCII ic;
 
-
-    bool get(int i, int j)
+    long long addCommandAndTry(const std::string& scriptSoFar, int n)
     {
-        bool res = ic.run({j, i});
+        if (n > 3) return -3;
+        if (n==1) {std::cout<<"Trying "; for (auto& c: scriptSoFar) std::cout<<(c=='\n'?';':c); std::cout<<"\n";}
+        if (auto res = test(scriptSoFar+"WALK\n") != 10) return res;
+
+        for (const std::string& opcode : {"AND ", "OR ", "NOT "})
+            for (const std::string& arg1 : {"A ", "B ", "C ", "D ", "T ", "J "})
+                for (const std::string& arg2 : {"T\n", "J\n"})
+                {
+                    std::string newS;
+                    newS.reserve(scriptSoFar.size() + 10);
+                    newS =  scriptSoFar;
+                    newS += opcode;
+                    newS += arg1;
+                    newS += arg2;
+                    addCommandAndTry(newS,n+1);
+                }
+        return -4;
+    }
+
+    long long test(const std::string& springScript)
+    {
+        ic.run();
+        ic.grabOutput();
+
+        auto res = ic.run(springScript);
+        std::cout<<ic.grabOutput();
         ic.reset();
         return res;
     }
+
 public:
 
     auto run(const std::string& inFileName)
     {
         std::ifstream inFile(inFileName);
-        ic = IntcodeComputer(inFile);
+        ic = IntcodeComputerASCII(inFile);
 
+        auto res = test(""
+                    "OR E J\n"
+                    "AND I J\n"
 
-//        for (int i = 85; i < 110; ++i, std::cout<<"\n")
-//            for (int j = 70; j < 120; ++j)
-//                std::cout<<(get(i, j)?10'000*(j-W+1) + i==860096?'-':'#':'.');
+                    "OR H J\n"
 
-        const int LIM = 99999;
-        int j;
-        for (j = W; !get(H*2-5, j); ++j);
-        for (int i = H*2-5; i < LIM; ++i%1000?std::cout:std::cout<<i<<"\n")
-            for (; get(i, j); ++j)
-                if (get(i+(H-1), j-(W-1)))
-                    return 10'000*(j-W+1) + i;
-        return -1;
+                    "AND D J\n"
+                    "RUN\n");
+
+        return res;
     }
 
 public:

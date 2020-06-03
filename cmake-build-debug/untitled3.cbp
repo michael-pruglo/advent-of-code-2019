@@ -92,6 +92,12 @@
 		<Unit filename="C:/Users/mickl/ClionProjects/untitled3/helpers/IntcodeComputer.hpp">
 			<Option target="untitled3"/>
 		</Unit>
+		<Unit filename="C:/Users/mickl/ClionProjects/untitled3/helpers/IntcodeComputerASCII.cpp">
+			<Option target="untitled3"/>
+		</Unit>
+		<Unit filename="C:/Users/mickl/ClionProjects/untitled3/helpers/IntcodeComputerASCII.hpp">
+			<Option target="untitled3"/>
+		</Unit>
 		<Unit filename="C:/Users/mickl/ClionProjects/untitled3/main.cpp">
 			<Option target="untitled3"/>
 		</Unit>

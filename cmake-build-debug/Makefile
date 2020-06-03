@@ -176,6 +176,33 @@ helpers/IntcodeComputer.cpp.s:
 	$(MAKE) -f CMakeFiles\untitled3.dir\build.make CMakeFiles/untitled3.dir/helpers/IntcodeComputer.cpp.s
 .PHONY : helpers/IntcodeComputer.cpp.s
 
+helpers/IntcodeComputerASCII.obj: helpers/IntcodeComputerASCII.cpp.obj
+
+.PHONY : helpers/IntcodeComputerASCII.obj
+
+# target to build an object file
+helpers/IntcodeComputerASCII.cpp.obj:
+	$(MAKE) -f CMakeFiles\untitled3.dir\build.make CMakeFiles/untitled3.dir/helpers/IntcodeComputerASCII.cpp.obj
+.PHONY : helpers/IntcodeComputerASCII.cpp.obj
+
+helpers/IntcodeComputerASCII.i: helpers/IntcodeComputerASCII.cpp.i
+
+.PHONY : helpers/IntcodeComputerASCII.i
+
+# target to preprocess a source file
+helpers/IntcodeComputerASCII.cpp.i:
+	$(MAKE) -f CMakeFiles\untitled3.dir\build.make CMakeFiles/untitled3.dir/helpers/IntcodeComputerASCII.cpp.i
+.PHONY : helpers/IntcodeComputerASCII.cpp.i
+
+helpers/IntcodeComputerASCII.s: helpers/IntcodeComputerASCII.cpp.s
+
+.PHONY : helpers/IntcodeComputerASCII.s
+
+# target to generate assembly for a file
+helpers/IntcodeComputerASCII.cpp.s:
+	$(MAKE) -f CMakeFiles\untitled3.dir\build.make CMakeFiles/untitled3.dir/helpers/IntcodeComputerASCII.cpp.s
+.PHONY : helpers/IntcodeComputerASCII.cpp.s
+
 main.obj: main.cpp.obj
 
 .PHONY : main.obj
@@ -245,6 +272,9 @@ help:
 	@echo ... helpers/IntcodeComputer.obj
 	@echo ... helpers/IntcodeComputer.i
 	@echo ... helpers/IntcodeComputer.s
+	@echo ... helpers/IntcodeComputerASCII.obj
+	@echo ... helpers/IntcodeComputerASCII.i
+	@echo ... helpers/IntcodeComputerASCII.s
 	@echo ... main.obj
 	@echo ... main.i
 	@echo ... main.s

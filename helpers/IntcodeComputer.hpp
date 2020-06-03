@@ -51,12 +51,11 @@ public:
     void                reset();
     Mem_t               run(const std::vector<Mem_t>& inputSeq = std::vector<Mem_t>())
     {
-        return run(std::move(inputSeq), ip);
+        return run(inputSeq, ip);
     }
     Mem_t               run(const std::vector<Mem_t>& inputSeq, Addr_t instructionPointer);
 
-
-
+    std::string         disassemble();
 
 
 private:
@@ -92,7 +91,8 @@ private:
             return Mode(paramModes/int(std::pow(10, i))%10);
         }
         Mem_t param(int i);
-        Mem_t paramAsAddress(int i);
+        Addr_t paramAsAddress(int i);
+        std::string paramStr(int i, bool withoutMode = false);
 
         static const std::unordered_map<Opcode_t, int> paramNo;
         static bool isInstruction(Mem_t value);

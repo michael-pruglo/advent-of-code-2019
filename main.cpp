@@ -2,10 +2,11 @@
 
 int main()
 {
-    //TestIntcodeComputer().run();
+    TestIntcodeComputer().run();
 
-    std::cout<<"\nMain run:\n";;
-    std::cout<<Solution().run("in.txt")<<"\n";
+    //std::ifstream in("in.txt"); std::cout<<IntcodeComputer(in).disassemble();
+
+    //std::cout<<"\nMain run:\n"; std::cout<<Solution().run("in.txt")<<"\n";
 
     return 0;
 }

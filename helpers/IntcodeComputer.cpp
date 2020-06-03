@@ -44,20 +44,27 @@ IntcodeComputer::Mem_t IntcodeComputer::Instruction::param(int i)
         case Mode::POSITION: return ic.get(parameters[i]);
         case Mode::IMMEDIATE: return parameters[i];
         case Mode::RELATIV: return ic.get(ic.relativeBase + parameters[i]);
+        default:
+            std::cout<<"[FATAL ERROR] wrong parameter mode: "<<getParamMode(i)<<"\n";
+            exit(5);
     }
-    std::cout<<"[FATAL ERROR] wrong parameter mode: "<<getParamMode(i)<<"\n";
-    exit(4);
 }
 
-IntcodeComputer::Mem_t IntcodeComputer::Instruction::paramAsAddress(int i)
+IntcodeComputer::Addr_t IntcodeComputer::Instruction::paramAsAddress(int i)
 {
     switch (getParamMode(i))
     {
         case Mode::POSITION: return parameters[i];
         case Mode::RELATIV: return ic.relativeBase + parameters[i];
+        default:
+            std::cout<<"[FATAL ERROR] wrong parameter as address mode: "<<getParamMode(i)<<"\n";
+            exit(6);
     }
-    std::cout<<"[FATAL ERROR] wrong parameter as address mode: "<<getParamMode(i)<<"\n";
-    exit(4);
+}
+
+std::string IntcodeComputer::Instruction::paramStr(int i, bool withoutMode)
+{
+    return (getParamMode(i)==IMMEDIATE||withoutMode?"":getParamMode(i)==POSITION?"@":"&") + std::to_string(parameters[i]);
 }
 
 IntcodeComputer::IntcodeComputer(std::istream& is)
@@ -200,9 +207,10 @@ IntcodeComputer::Mem_t IntcodeComputer::run(const std::vector<IntcodeComputer::M
                 case 6: //jump-if-false
                     if (instruction.param(0) && instruction.opcode == 5
                         || !instruction.param(0) && instruction.opcode == 6)
+                    {
                         ip = instruction.param(1);
-                    else
-                        ip += Instruction::paramNo.at(instruction.opcode) + 1;
+                        continue;
+                    }
                     break;
 
 
@@ -225,13 +233,56 @@ IntcodeComputer::Mem_t IntcodeComputer::run(const std::vector<IntcodeComputer::M
                         show(ip);
             #endif
 
-            if (instruction.opcode!=5&&instruction.opcode!=6)
-                ip += Instruction::paramNo.at(instruction.opcode) + 1;
+            ip += Instruction::paramNo.at(instruction.opcode) + 1;
         }
         else
             ++ip;
     }
 
     return -2;
+}
+
+
+std::string IntcodeComputer::disassemble()
+{
+    show();
+    std::stringstream ss;
+
+    for (Addr_t ip; ip < memo.size(); )
+    {
+        ss<<"["<<std::setw(5)<<ip<<"]:    ";
+        if (Instruction::isInstruction(get(ip)))
+        {
+            Instruction instruction(*this, ip);
+            int paramNo = Instruction::paramNo.at(instruction.opcode);
+            std::string _0, _0raw, _1, _1raw, _2, _2raw;
+            if (paramNo >= 1) { _0 = instruction.paramStr(0); _0raw = instruction.paramStr(0, true); }
+            if (paramNo >= 2) { _1 = instruction.paramStr(1); _1raw = instruction.paramStr(1, true); }
+            if (paramNo >= 3) { _2 = instruction.paramStr(2); _2raw = instruction.paramStr(2, true); }
+
+            switch(instruction.opcode)
+            {
+                case  1: ss<<"memo["<<_0raw<<"] = "<<_1<<" + "<<_2<<";\n"; break;
+                case  2: ss<<"memo["<<_0raw<<"] = "<<_1<<" * "<<_2<<";\n"; break;
+                case  3: ss<<"memo["<<_0raw<<"] = __INPUT;\n"; break;
+                case  4: ss<<"__OUTPUT("<<_0<<");\n"; break;
+                case  5: ss<<"jtrue    "; break;
+                case  6: ss<<"jfalse   "; break;
+                case  7: ss<<"writeLess"; break;
+                case  8: ss<<"writeEq  "; break;
+                case  9: ss<<"incrRB   "; break;
+                case 99: ss<<"__EXIT()"; break;
+            }
+
+            ip += paramNo + 1;
+        }
+        else
+        {
+            ss<<get(ip)<<"\t\t'"<<char(get(ip))<<"'"<<"\n";
+            ++ip;
+        }
+    }
+
+    return ss.str();
 }
 
