@@ -64,7 +64,15 @@ IntcodeComputer::Addr_t IntcodeComputer::Instruction::paramAsAddress(int i)
 
 std::string IntcodeComputer::Instruction::paramStr(int i, bool withoutMode)
 {
-    return (getParamMode(i)==IMMEDIATE||withoutMode?"":getParamMode(i)==POSITION?"@":"&") + std::to_string(parameters[i]);
+    auto _i = std::to_string(parameters[i]);
+    switch (getParamMode(i))
+    {
+        case Mode::POSITION:  return withoutMode ?             _i   :           "@"+_i;
+        case Mode::IMMEDIATE: return withoutMode ?        "ERROR"   :               _i;
+        case Mode::RELATIV:   return withoutMode ? "(RB+ "+_i+")"   :  "@(RB+ "+_i+")";
+        default:
+            return "UNKNOWN PARAM MODE. CANNOT RETURN STRING";
+    }
 }
 
 IntcodeComputer::IntcodeComputer(std::istream& is)
@@ -167,6 +175,13 @@ IntcodeComputer::Mem_t IntcodeComputer::run(const std::vector<IntcodeComputer::M
         else
         {
             Instruction instruction(*this, ip);
+            int paramNo = Instruction::paramNo.at(instruction.opcode);
+            #define _0 instruction.param(0)
+            #define _0raw instruction.paramAsAddress(0)
+            #define _1 instruction.param(1)
+            #define _1raw instruction.paramAsAddress(1)
+            #define _2 instruction.param(2)
+            #define _2raw instruction.paramAsAddress(2)
             #ifdef VERBOSE
                 std::cout<< "execute __@"<<ip<<"__"<<instruction.opcode<<"(";
                 for (int i = 0; i < instruction.parameters.size(); ++i)
@@ -183,48 +198,29 @@ IntcodeComputer::Mem_t IntcodeComputer::run(const std::vector<IntcodeComputer::M
                     terminated = true;
                     return result();
 
-                case 1: //add two parameters and write to address
-                case 2: //mul two parameters and write to address
-                    set(instruction.paramAsAddress(2), instruction.opcode == 1 ?
-                                                       instruction.param(0) + instruction.param(1) :
-                                                       instruction.param(0) * instruction.param(1));
-                    break;
+                case 1: set(_2raw, _0 + _1); break;
+                case 2: set(_2raw, _0 * _1); break;
 
-                case 3: //write INPUT to address
-                    if (inputSequence.empty())
-                        return -1;
-                    else {
-                        //not without mode
-                        set(instruction.paramAsAddress(0), inputSequence.front());
-                        inputSequence.pop();
-                    }
-                    break;
-
-                case 4: //output the value at the address
-                    outputSequence.push_back(instruction.param(0));
-                    break;
-
-                case 5: //jump-if-true
-                case 6: //jump-if-false
-                    if (instruction.param(0) && instruction.opcode == 5
-                        || !instruction.param(0) && instruction.opcode == 6)
+                case 3:
                     {
-                        ip = instruction.param(1);
-                        continue;
-                    }
-                    break;
+                        if (inputSequence.empty())
+                            return -1;
+                        else {
+                            //not without mode <-??
+                            set(_0raw, inputSequence.front());
+                            inputSequence.pop();
+                        }
+                    } break; //input
+                case 4: outputSequence.push_back(_0); break; //output
 
+                case 5: if (_0) { ip = _1; continue; } break; //jump-if-true
+                case 6: if (!_0) { ip = _1; continue; } break; //jump-if-false
 
-                case 7: //less than - evaluate and write to address
-                case 8: //equals - evaluate and write to address
-                    set(instruction.paramAsAddress(2), instruction.opcode == 7 ?
-                                                       instruction.param(0) < instruction.param(1) :
-                                                       instruction.param(0) == instruction.param(1));
-                    break;
+                case 7: set(_2raw, _0 < _1); break; //less-than
+                case 8: set(_2raw, _0 == _1); break; //equals
 
-                case 9: //adjust the relative base
-                    relativeBase += instruction.param(0);
-                    break;
+                case 9: relativeBase += _0; break; //adjust RB
+
 
                 default:
                     std::cout<<"[FATAL ERROR] Unsupported instruction: "<<instruction.opcode<<"\n";
@@ -233,8 +229,14 @@ IntcodeComputer::Mem_t IntcodeComputer::run(const std::vector<IntcodeComputer::M
             #ifdef VERBOSE
                         show(ip);
             #endif
+            #undef _0
+            #undef _0raw
+            #undef _1
+            #undef _1raw
+            #undef _2
+            #undef _2raw
 
-            ip += Instruction::paramNo.at(instruction.opcode) + 1;
+            ip += paramNo + 1;
         }
     }
 
@@ -247,7 +249,7 @@ std::string IntcodeComputer::disassemble()
     show();
     std::stringstream ss;
 
-    for (Addr_t ip; ip < memo.size(); )
+    for (Addr_t ip = 0; ip < memo.size(); )
     {
         ss<<"["<<std::setw(5)<<ip<<"]:    ";
         if (!Instruction::isInstruction(get(ip)))
@@ -266,8 +268,8 @@ std::string IntcodeComputer::disassemble()
 
             switch(instruction.opcode)
             {
-                case  1: ss<<"memo["<<_0raw<<"] = "<<_1<<" + "<<_2; break;
-                case  2: ss<<"memo["<<_0raw<<"] = "<<_1<<" * "<<_2; break;
+                case  1: ss<<"memo["<<_2raw<<"] = "<<_0<<" + "<<_1; break;
+                case  2: ss<<"memo["<<_2raw<<"] = "<<_0<<" * "<<_1; break;
                 case  3: ss<<"memo["<<_0raw<<"] = __INPUT"; break;
                 case  4: ss<<"__OUTPUT("<<_0<<")"; break;
                 case  5: ss<<"if ("<<_0<<") goto "<<_1; break;
