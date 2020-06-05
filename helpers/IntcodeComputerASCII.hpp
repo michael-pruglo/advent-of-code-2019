@@ -10,8 +10,8 @@
 class IntcodeComputerASCII : public IntcodeComputer
 {
 public:
-                IntcodeComputerASCII() = default;
-    explicit    IntcodeComputerASCII(std::istream& is) : IntcodeComputer(is) {}
+    IntcodeComputerASCII() = default;
+    IntcodeComputerASCII(const std::vector<long long>& program, const std::vector<long long>& inputs) : IntcodeComputer(program, inputs) {}
 
     std::string grabOutput();
     Mem_t       run()

@@ -75,30 +75,11 @@ std::string IntcodeComputer::Instruction::paramStr(int i, bool withoutMode)
     }
 }
 
-IntcodeComputer::IntcodeComputer(std::istream& is)
+IntcodeComputer::IntcodeComputer(const std::vector<Mem_t>& program, const std::vector<Mem_t>& inputs)
 {
-    readf(is);
-    startingState = memo;
-}
-
-void IntcodeComputer::readf(std::istream& is)
-{
-    char comma;
-    for (Mem_t i; is>>i; is>>comma)
-        memo.push_back(i);
-    if (comma=='>')
-    {
-        inputSequence.push(memo.back());
-        memo.pop_back();
-    }
-#ifdef VERBOSE
-    std::cout<<"INPUT = ";
-    if (inputSequence.empty())
-        std::cout<<"NONE\n";
-    else
-        std::cout<<inputSequence.back()<<" "<<comma<<"\n";
-    show();
-#endif
+    startingState = memo = program;
+    for (auto x: inputs)
+        inputSequence.push(x);
 }
 
 enum Color
@@ -164,7 +145,7 @@ IntcodeComputer::Mem_t IntcodeComputer::run(const std::vector<IntcodeComputer::M
 {
     for (auto x: inputSeq) inputSequence.push(x);
     #ifdef VERBOSE
-        std::cout<<"Run({"; for (auto temp = inputSeq; !temp.empty(); temp.pop()) std::cout<<temp.front()<<" "; std::cout<<"},"<<instructionPointer<<")\n";
+        std::cout<<"Run ( inputs = {"; for (auto x : inputSeq) std::cout<<x<<" "; std::cout<<"},  ip = "<<instructionPointer<<" )  ";
         std::cout<<"current input queue: ["; for (auto temp = inputSequence; !temp.empty(); temp.pop()) std::cout<<temp.front()<<" "; std::cout<<"]\n";
     #endif
 
@@ -288,3 +269,15 @@ std::string IntcodeComputer::disassemble()
     return ss.str();
 }
 
+
+IntcodeComputer readIntcodeFile(const std::string& fileName)
+{
+    std::vector<long long> program, inputs;
+    std::ifstream inFile(fileName);
+
+    char comma;
+    for (long long i; inFile>>i; inFile>>comma)
+        (comma=='>'? inputs : program).push_back(i);
+
+    return std::move(IntcodeComputer(program, inputs));
+}

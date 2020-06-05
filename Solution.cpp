@@ -5,9 +5,7 @@
 
 long long Solution::runComputer(const std::string& inFileName)
 {
-    std::ifstream inFile(inFileName);
-
-    IntcodeComputer ic(inFile);
+    IntcodeComputer ic = readIntcodeFile(inFileName);
     auto res = ic.run();
     auto residualOutput = ic.grabOutput();
     if (residualOutput.size()>1) { std::cout << "\tvvv [bottom] has residual output ["; for (auto& x: residualOutput) std::cout << x << " "; std::cout << "] \n";}
@@ -16,10 +14,8 @@ long long Solution::runComputer(const std::string& inFileName)
 
 long long Solution::runAmplifier(const std::string& inFileName)
 {
-    std::ifstream inFile(inFileName);
-
     const int N = 5;
-    std::vector<IntcodeComputer> ic(N, IntcodeComputer(inFile));
+    std::vector<IntcodeComputer> ic(N, readIntcodeFile(inFileName));
 
     std::vector<int> phaseSettingSequence(N);
     std::iota(phaseSettingSequence.begin(), phaseSettingSequence.end(), 0);
@@ -48,10 +44,8 @@ long long Solution::runAmplifier(const std::string& inFileName)
 
 long long Solution::runAmplifierFeedbackloop(const std::string& inFileName)
 {
-    std::ifstream inFile(inFileName);
-
     const int N = 5;
-    std::vector<IntcodeComputer> ic(N, IntcodeComputer(inFile));
+    std::vector<IntcodeComputer> ic(N, readIntcodeFile(inFileName));
 
     std::vector<int> phaseSettingSequence(N);
     std::iota(phaseSettingSequence.begin(), phaseSettingSequence.end(), 5);

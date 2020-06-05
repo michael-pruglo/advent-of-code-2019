@@ -8,6 +8,7 @@
 
 #include <vector>
 #include <iostream>
+#include <fstream>
 #include <cmath>
 #include <queue>
 #include <unordered_map>
@@ -19,7 +20,7 @@ public:
     typedef long long Mem_t;
 
                         IntcodeComputer() = default;
-    explicit            IntcodeComputer(std::istream& is);
+                        IntcodeComputer(const std::vector<Mem_t>& program, const std::vector<Mem_t>& inputs);
 
     inline Mem_t        get(Addr_t address)
     {
@@ -101,7 +102,6 @@ private:
         IntcodeComputer& ic;
     };
 
-    void                readf(std::istream& is);
     inline Mem_t        _get_const(Addr_t address) const
     {
         return memo[address];
@@ -110,5 +110,6 @@ private:
     void                show(Addr_t startAdress, Addr_t endAdress, Addr_t highlight = -1, std::ostream& os = std::cout) const;
 };
 
+IntcodeComputer readIntcodeFile(const std::string& fileName);
 
 #endif //UNTITLED3_INTCODECOMPUTER_HPP
