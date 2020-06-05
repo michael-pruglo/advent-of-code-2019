@@ -12,6 +12,7 @@ class IntcodeComputerASCII : public IntcodeComputer
 public:
     IntcodeComputerASCII() = default;
     IntcodeComputerASCII(const std::vector<long long>& program, const std::vector<long long>& inputs) : IntcodeComputer(program, inputs) {}
+    IntcodeComputerASCII(const IntcodeComputer& ic) : IntcodeComputer(ic) {}
 
     std::string grabOutput();
     Mem_t       run()

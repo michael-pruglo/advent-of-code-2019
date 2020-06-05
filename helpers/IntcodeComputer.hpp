@@ -20,6 +20,7 @@ public:
     typedef long long Mem_t;
 
                         IntcodeComputer() = default;
+                        IntcodeComputer(const IntcodeComputer&) = default;
                         IntcodeComputer(const std::vector<Mem_t>& program, const std::vector<Mem_t>& inputs);
 
     inline Mem_t        get(Addr_t address)

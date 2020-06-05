@@ -22,6 +22,9 @@ public:
 
     auto run(const std::string& inFileName)
     {
+        IntcodeComputerASCII ic = readIntcodeFile(inFileName);
+
+
         return 0;
     }
 

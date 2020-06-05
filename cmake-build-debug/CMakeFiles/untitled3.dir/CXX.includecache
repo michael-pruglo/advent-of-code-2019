@@ -6,6 +6,10 @@
 
 #IncludeRegexTransform: 
 
+C:/Users/mickl/ClionProjects/untitled3/Solution.cpp
+Solution.hpp
+C:/Users/mickl/ClionProjects/untitled3/Solution.hpp
+
 C:/Users/mickl/ClionProjects/untitled3/Solution.hpp
 fstream
 -
@@ -46,6 +50,10 @@ C:/Users/mickl/ClionProjects/untitled3/helpers/IntcodeComputer.hpp
 
 C:/Users/mickl/ClionProjects/untitled3/main.cpp
 tests/IntCodeComputer/TestIntcodeComputer.hpp
+C:/Users/mickl/ClionProjects/untitled3/tests/IntCodeComputer/TestIntcodeComputer.hpp
+
+C:/Users/mickl/ClionProjects/untitled3/tests/IntCodeComputer/TestIntcodeComputer.cpp
+TestIntcodeComputer.hpp
 C:/Users/mickl/ClionProjects/untitled3/tests/IntCodeComputer/TestIntcodeComputer.hpp
 
 C:/Users/mickl/ClionProjects/untitled3/tests/IntCodeComputer/TestIntcodeComputer.hpp
