@@ -18,77 +18,70 @@
 class Solution
 {
 
+    struct Moon
+    {
+        int x, y, z;
+        int xVel=0, yVel=0, zVel=0;
+
+        int potentialEnergy() { return std::abs(x)+std::abs(y)+std::abs(z); }
+        int kineticEnergy() { return std::abs(xVel)+std::abs(yVel)+std::abs(zVel); }
+        bool operator==(const Moon& m2) const
+        {
+            return
+                x==m2.x &&
+                y==m2.y &&
+                z==m2.z &&
+                xVel==m2.xVel &&
+                yVel==m2.yVel &&
+                zVel==m2.zVel;
+            ;
+        }
+    };
+    void bringCloser(int a, int& aVel, int b, int& bVel)
+    {
+             if (a<b) {++aVel; --bVel;}
+        else if (a>b) {--aVel; ++bVel;}
+    }
+    void gravity(Moon& m1, Moon& m2)
+    {
+        //bringCloser(m1.x, m1.xVel, m2.x, m2.xVel);
+        //bringCloser(m1.y, m1.yVel, m2.y, m2.yVel);
+        bringCloser(m1.z, m1.zVel, m2.z, m2.zVel);
+    }
+    void velocity(Moon& m)
+    {
+        //m.x += m.xVel;
+        //m.y += m.yVel;
+        m.z += m.zVel;
+    }
+
 public:
 
     auto run(const std::string& inFileName)
     {
-        IntcodeComputerASCII ic = readIntcodeFile(inFileName);
+        std::ifstream inFile(inFileName);
+        std::vector<Moon> moons;
+        for ( int x, y, z; inFile>>x>>y>>z; moons.push_back({x,y,z}));
+        auto stMoons = moons;
 
-        std::string command =
-                "north\n"
-                "west\n"
-                //"take mug\n"
-                "west\n"
-                "take easter egg\n"
-                "east\n"
-                "east\n"
-                "south\n"
-                "south\n"
-                "take asterisk\n"
-                "south\n"
-                "west\n"
-                "north\n"
-                "take jam\n"
-                "south\n"
-                "east\n"
-                "north\n"
-                "east\n"
-                "take klein bottle\n"
-                "south\n"
-                "west\n"
-                "take tambourine\n"
-                "west\n"
-                "take cake\n"
-                "east\n"
-                "south\n"
-                "east\n"
-                "take polygon\n"
-                "north\n"
-                "inv\n"
-                ;
+        for (auto& x: moons) std::cout<<"\t"<<x.x<<" "<<x.y<<" "<<x.z<<"       "<<x.xVel<<" "<<x.yVel<<" "<<x.zVel<<"\n";
 
-        const std::vector<std::string> objects = {
-                "polygon",
-                "easter egg",
-                "tambourine",
-                "asterisk",
-                "jam",
-                "klein bottle",
-                "cake"
-        };
-        for (unsigned i = 1; i < 1u<<objects.size(); ++i)
+        for (long long t = 1; ; ++t)
         {
-            for (unsigned j = 0; 1u<<j <= i; ++j)
-                if (!((1u<<j)&i))
-                    command += "drop " + objects[j] + "\n";
-            command += "inv\neast\n";
-            ic.run(command);
-            std::cerr<<i<<"\n";
-            std::cout<<ic.grabOutput();
-            //std::cin.get();
-            command.clear();
-            for (unsigned j = 0; 1u<<j <= i; ++j)
-                if (!((1u<<j)&i))
-                    command += "take " + objects[j] + "\n";
+            for (int i = 0; i < moons.size(); ++i)
+                for (int j = i+1; j < moons.size(); ++j)
+                    gravity(moons[i], moons[j]);
 
-        }
+            for (auto& x: moons)
+                velocity(x);
 
-        while (1)
-        {
-            ic.run(command);
-            std::cout<<ic.grabOutput()<<">";
-            getline(std::cin, command);
-            command += '\n';
+            if (t%10'000'000==0) {
+                std::cout << "time " << t << "\n";
+                for (auto& x: moons)
+                    std::cout << "\t" << x.x << " " << x.y << " " << x.z << "       " << x.xVel << " " << x.yVel << " "
+                              << x.zVel << "\n";
+            }
+            if (moons == stMoons) { std::cout<<"after "<<t<<" steps\n"; break;}
         }
 
         return 0;

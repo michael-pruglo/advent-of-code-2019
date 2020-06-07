@@ -8,18 +8,18 @@
 		<Option virtualFolders="CMake Files\;"/>
 		<Build>
 			<Target title="all">
-				<Option working_dir="C:/Users/mickl/ClionProjects/untitled3/cmake-build-debug"/>
+				<Option working_dir="C:/Users/mickl/ClionProjects/AdventOfCode2019/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="C:/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/mickl/ClionProjects/untitled3/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
-					<CompileFile command="C:/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/mickl/ClionProjects/untitled3/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="C:/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/mickl/ClionProjects/untitled3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="C:/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/mickl/ClionProjects/untitled3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="C:/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/mickl/ClionProjects/AdventOfCode2019/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="C:/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/mickl/ClionProjects/AdventOfCode2019/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/mickl/ClionProjects/AdventOfCode2019/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/mickl/ClionProjects/AdventOfCode2019/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="untitled3">
-				<Option output="C:/Users/mickl/ClionProjects/untitled3/cmake-build-debug/untitled3.exe" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="C:/Users/mickl/ClionProjects/untitled3/cmake-build-debug"/>
+				<Option output="C:/Users/mickl/ClionProjects/AdventOfCode2019/cmake-build-debug/untitled3.exe" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/mickl/ClionProjects/AdventOfCode2019/cmake-build-debug"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
 				<Option compiler="gcc"/>
@@ -32,15 +32,15 @@
 					<Add directory="C:/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/7.3.0/../../../../x86_64-w64-mingw32/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="C:/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/mickl/ClionProjects/untitled3/cmake-build-debug/Makefile&quot;  VERBOSE=1 untitled3"/>
-					<CompileFile command="C:/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/mickl/ClionProjects/untitled3/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="C:/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/mickl/ClionProjects/untitled3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="C:/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/mickl/ClionProjects/untitled3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="C:/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/mickl/ClionProjects/AdventOfCode2019/cmake-build-debug/Makefile&quot;  VERBOSE=1 untitled3"/>
+					<CompileFile command="C:/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/mickl/ClionProjects/AdventOfCode2019/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/mickl/ClionProjects/AdventOfCode2019/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/mickl/ClionProjects/AdventOfCode2019/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="untitled3/fast">
-				<Option output="C:/Users/mickl/ClionProjects/untitled3/cmake-build-debug/untitled3.exe" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="C:/Users/mickl/ClionProjects/untitled3/cmake-build-debug"/>
+				<Option output="C:/Users/mickl/ClionProjects/AdventOfCode2019/cmake-build-debug/untitled3.exe" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/mickl/ClionProjects/AdventOfCode2019/cmake-build-debug"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
 				<Option compiler="gcc"/>
@@ -53,64 +53,64 @@
 					<Add directory="C:/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/7.3.0/../../../../x86_64-w64-mingw32/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="C:/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/mickl/ClionProjects/untitled3/cmake-build-debug/Makefile&quot;  VERBOSE=1 untitled3/fast"/>
-					<CompileFile command="C:/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/mickl/ClionProjects/untitled3/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="C:/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/mickl/ClionProjects/untitled3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="C:/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/mickl/ClionProjects/untitled3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="C:/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/mickl/ClionProjects/AdventOfCode2019/cmake-build-debug/Makefile&quot;  VERBOSE=1 untitled3/fast"/>
+					<CompileFile command="C:/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/mickl/ClionProjects/AdventOfCode2019/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/mickl/ClionProjects/AdventOfCode2019/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/mickl/ClionProjects/AdventOfCode2019/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="edit_cache">
-				<Option working_dir="C:/Users/mickl/ClionProjects/untitled3/cmake-build-debug"/>
+				<Option working_dir="C:/Users/mickl/ClionProjects/AdventOfCode2019/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="C:/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/mickl/ClionProjects/untitled3/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
-					<CompileFile command="C:/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/mickl/ClionProjects/untitled3/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="C:/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/mickl/ClionProjects/untitled3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="C:/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/mickl/ClionProjects/untitled3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="C:/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/mickl/ClionProjects/AdventOfCode2019/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="C:/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/mickl/ClionProjects/AdventOfCode2019/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/mickl/ClionProjects/AdventOfCode2019/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/mickl/ClionProjects/AdventOfCode2019/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="rebuild_cache">
-				<Option working_dir="C:/Users/mickl/ClionProjects/untitled3/cmake-build-debug"/>
+				<Option working_dir="C:/Users/mickl/ClionProjects/AdventOfCode2019/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="C:/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/mickl/ClionProjects/untitled3/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
-					<CompileFile command="C:/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/mickl/ClionProjects/untitled3/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="C:/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/mickl/ClionProjects/untitled3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="C:/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/mickl/ClionProjects/untitled3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="C:/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/mickl/ClionProjects/AdventOfCode2019/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="C:/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/mickl/ClionProjects/AdventOfCode2019/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/mickl/ClionProjects/AdventOfCode2019/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/mickl/ClionProjects/AdventOfCode2019/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 		</Build>
-		<Unit filename="C:/Users/mickl/ClionProjects/untitled3/Solution.cpp">
+		<Unit filename="C:/Users/mickl/ClionProjects/AdventOfCode2019/Solution.cpp">
 			<Option target="untitled3"/>
 		</Unit>
-		<Unit filename="C:/Users/mickl/ClionProjects/untitled3/Solution.hpp">
+		<Unit filename="C:/Users/mickl/ClionProjects/AdventOfCode2019/Solution.hpp">
 			<Option target="untitled3"/>
 		</Unit>
-		<Unit filename="C:/Users/mickl/ClionProjects/untitled3/helpers/IntcodeComputer.cpp">
+		<Unit filename="C:/Users/mickl/ClionProjects/AdventOfCode2019/helpers/IntcodeComputer.cpp">
 			<Option target="untitled3"/>
 		</Unit>
-		<Unit filename="C:/Users/mickl/ClionProjects/untitled3/helpers/IntcodeComputer.hpp">
+		<Unit filename="C:/Users/mickl/ClionProjects/AdventOfCode2019/helpers/IntcodeComputer.hpp">
 			<Option target="untitled3"/>
 		</Unit>
-		<Unit filename="C:/Users/mickl/ClionProjects/untitled3/helpers/IntcodeComputerASCII.cpp">
+		<Unit filename="C:/Users/mickl/ClionProjects/AdventOfCode2019/helpers/IntcodeComputerASCII.cpp">
 			<Option target="untitled3"/>
 		</Unit>
-		<Unit filename="C:/Users/mickl/ClionProjects/untitled3/helpers/IntcodeComputerASCII.hpp">
+		<Unit filename="C:/Users/mickl/ClionProjects/AdventOfCode2019/helpers/IntcodeComputerASCII.hpp">
 			<Option target="untitled3"/>
 		</Unit>
-		<Unit filename="C:/Users/mickl/ClionProjects/untitled3/main.cpp">
+		<Unit filename="C:/Users/mickl/ClionProjects/AdventOfCode2019/main.cpp">
 			<Option target="untitled3"/>
 		</Unit>
-		<Unit filename="C:/Users/mickl/ClionProjects/untitled3/tests/IntCodeComputer/TestIntcodeComputer.cpp">
+		<Unit filename="C:/Users/mickl/ClionProjects/AdventOfCode2019/tests/IntCodeComputer/TestIntcodeComputer.cpp">
 			<Option target="untitled3"/>
 		</Unit>
-		<Unit filename="C:/Users/mickl/ClionProjects/untitled3/tests/IntCodeComputer/TestIntcodeComputer.hpp">
+		<Unit filename="C:/Users/mickl/ClionProjects/AdventOfCode2019/tests/IntCodeComputer/TestIntcodeComputer.hpp">
 			<Option target="untitled3"/>
 		</Unit>
-		<Unit filename="C:/Users/mickl/ClionProjects/untitled3/tests/Test.hpp">
+		<Unit filename="C:/Users/mickl/ClionProjects/AdventOfCode2019/tests/Test.hpp">
 			<Option target="untitled3"/>
 		</Unit>
-		<Unit filename="C:/Users/mickl/ClionProjects/untitled3/CMakeLists.txt">
+		<Unit filename="C:/Users/mickl/ClionProjects/AdventOfCode2019/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\"/>
 		</Unit>
 	</Project>

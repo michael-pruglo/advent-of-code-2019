@@ -6,11 +6,11 @@
 
 #IncludeRegexTransform: 
 
-C:/Users/mickl/ClionProjects/untitled3/Solution.cpp
+C:/Users/mickl/ClionProjects/AdventOfCode2019/Solution.cpp
 Solution.hpp
-C:/Users/mickl/ClionProjects/untitled3/Solution.hpp
+C:/Users/mickl/ClionProjects/AdventOfCode2019/Solution.hpp
 
-C:/Users/mickl/ClionProjects/untitled3/Solution.hpp
+C:/Users/mickl/ClionProjects/AdventOfCode2019/Solution.hpp
 fstream
 -
 numeric
@@ -26,11 +26,21 @@ thread
 mutex
 -
 helpers/IntcodeComputer.hpp
-C:/Users/mickl/ClionProjects/untitled3/helpers/IntcodeComputer.hpp
+C:/Users/mickl/ClionProjects/AdventOfCode2019/helpers/IntcodeComputer.hpp
 helpers/IntcodeComputerASCII.hpp
-C:/Users/mickl/ClionProjects/untitled3/helpers/IntcodeComputerASCII.hpp
+C:/Users/mickl/ClionProjects/AdventOfCode2019/helpers/IntcodeComputerASCII.hpp
 
-C:/Users/mickl/ClionProjects/untitled3/helpers/IntcodeComputer.hpp
+C:/Users/mickl/ClionProjects/AdventOfCode2019/helpers/IntcodeComputer.cpp
+iomanip
+-
+windows.h
+-
+cassert
+-
+IntcodeComputer.hpp
+C:/Users/mickl/ClionProjects/AdventOfCode2019/helpers/IntcodeComputer.hpp
+
+C:/Users/mickl/ClionProjects/AdventOfCode2019/helpers/IntcodeComputer.hpp
 vector
 -
 iostream
@@ -44,19 +54,23 @@ queue
 unordered_map
 -
 
-C:/Users/mickl/ClionProjects/untitled3/helpers/IntcodeComputerASCII.hpp
+C:/Users/mickl/ClionProjects/AdventOfCode2019/helpers/IntcodeComputerASCII.cpp
+IntcodeComputerASCII.hpp
+C:/Users/mickl/ClionProjects/AdventOfCode2019/helpers/IntcodeComputerASCII.hpp
+
+C:/Users/mickl/ClionProjects/AdventOfCode2019/helpers/IntcodeComputerASCII.hpp
 IntcodeComputer.hpp
-C:/Users/mickl/ClionProjects/untitled3/helpers/IntcodeComputer.hpp
+C:/Users/mickl/ClionProjects/AdventOfCode2019/helpers/IntcodeComputer.hpp
 
-C:/Users/mickl/ClionProjects/untitled3/main.cpp
+C:/Users/mickl/ClionProjects/AdventOfCode2019/main.cpp
 tests/IntCodeComputer/TestIntcodeComputer.hpp
-C:/Users/mickl/ClionProjects/untitled3/tests/IntCodeComputer/TestIntcodeComputer.hpp
+C:/Users/mickl/ClionProjects/AdventOfCode2019/tests/IntCodeComputer/TestIntcodeComputer.hpp
 
-C:/Users/mickl/ClionProjects/untitled3/tests/IntCodeComputer/TestIntcodeComputer.cpp
+C:/Users/mickl/ClionProjects/AdventOfCode2019/tests/IntCodeComputer/TestIntcodeComputer.cpp
 TestIntcodeComputer.hpp
-C:/Users/mickl/ClionProjects/untitled3/tests/IntCodeComputer/TestIntcodeComputer.hpp
+C:/Users/mickl/ClionProjects/AdventOfCode2019/tests/IntCodeComputer/TestIntcodeComputer.hpp
 
-C:/Users/mickl/ClionProjects/untitled3/tests/IntCodeComputer/TestIntcodeComputer.hpp
+C:/Users/mickl/ClionProjects/AdventOfCode2019/tests/IntCodeComputer/TestIntcodeComputer.hpp
 vector
 -
 string
@@ -64,15 +78,15 @@ string
 functional
 -
 ../../Solution.hpp
-C:/Users/mickl/ClionProjects/untitled3/Solution.hpp
+C:/Users/mickl/ClionProjects/AdventOfCode2019/Solution.hpp
 ../Test.hpp
-C:/Users/mickl/ClionProjects/untitled3/tests/Test.hpp
+C:/Users/mickl/ClionProjects/AdventOfCode2019/tests/Test.hpp
 
-C:/Users/mickl/ClionProjects/untitled3/tests/Test.hpp
+C:/Users/mickl/ClionProjects/AdventOfCode2019/tests/Test.hpp
 iostream
 -
 vector
 -
 ../Solution.hpp
-C:/Users/mickl/ClionProjects/untitled3/Solution.hpp
+C:/Users/mickl/ClionProjects/AdventOfCode2019/Solution.hpp
 
