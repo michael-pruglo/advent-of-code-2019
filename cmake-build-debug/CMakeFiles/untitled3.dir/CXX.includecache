@@ -21,6 +21,8 @@ map
 -
 set
 -
+list
+-
 thread
 -
 mutex
@@ -29,16 +31,6 @@ helpers/IntcodeComputer.hpp
 C:/Users/mickl/ClionProjects/AdventOfCode2019/helpers/IntcodeComputer.hpp
 helpers/IntcodeComputerASCII.hpp
 C:/Users/mickl/ClionProjects/AdventOfCode2019/helpers/IntcodeComputerASCII.hpp
-
-C:/Users/mickl/ClionProjects/AdventOfCode2019/helpers/IntcodeComputer.cpp
-iomanip
--
-windows.h
--
-cassert
--
-IntcodeComputer.hpp
-C:/Users/mickl/ClionProjects/AdventOfCode2019/helpers/IntcodeComputer.hpp
 
 C:/Users/mickl/ClionProjects/AdventOfCode2019/helpers/IntcodeComputer.hpp
 vector
@@ -53,10 +45,6 @@ queue
 -
 unordered_map
 -
-
-C:/Users/mickl/ClionProjects/AdventOfCode2019/helpers/IntcodeComputerASCII.cpp
-IntcodeComputerASCII.hpp
-C:/Users/mickl/ClionProjects/AdventOfCode2019/helpers/IntcodeComputerASCII.hpp
 
 C:/Users/mickl/ClionProjects/AdventOfCode2019/helpers/IntcodeComputerASCII.hpp
 IntcodeComputer.hpp

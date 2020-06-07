@@ -10,6 +10,7 @@
 #include <algorithm>
 #include <map>
 #include <set>
+#include <list>
 #include <thread>
 #include <mutex>
 #include "helpers/IntcodeComputer.hpp"
@@ -17,42 +18,60 @@
 
 class Solution
 {
+    typedef __int64 Quan;
 
-    struct Moon
+    struct Elem
     {
-        int x, y, z;
-        int xVel=0, yVel=0, zVel=0;
-
-        int potentialEnergy() { return std::abs(x)+std::abs(y)+std::abs(z); }
-        int kineticEnergy() { return std::abs(xVel)+std::abs(yVel)+std::abs(zVel); }
-        bool operator==(const Moon& m2) const
-        {
-            return
-                x==m2.x &&
-                y==m2.y &&
-                z==m2.z &&
-                xVel==m2.xVel &&
-                yVel==m2.yVel &&
-                zVel==m2.zVel;
-            ;
-        }
+        std::string name;
+        Quan quantity;
+        bool operator<(const Elem& b) const { return name<b.name; }
     };
-    void bringCloser(int a, int& aVel, int b, int& bVel)
+    std::unordered_map<std::string, std::pair<std::vector<Elem>, Quan>> reactions;
+
+    std::unordered_map<std::string, Quan> inDegree, starting;
+
+    std::map<std::string, Quan> needed;
+
+    Quan oreneeded(Elem elem)
     {
-             if (a<b) {++aVel; --bVel;}
-        else if (a>b) {--aVel; ++bVel;}
-    }
-    void gravity(Moon& m1, Moon& m2)
-    {
-        //bringCloser(m1.x, m1.xVel, m2.x, m2.xVel);
-        //bringCloser(m1.y, m1.yVel, m2.y, m2.yVel);
-        bringCloser(m1.z, m1.zVel, m2.z, m2.zVel);
-    }
-    void velocity(Moon& m)
-    {
-        //m.x += m.xVel;
-        //m.y += m.yVel;
-        m.z += m.zVel;
+        needed.clear();
+        inDegree = starting;
+        Quan res = 0;
+        needed[elem.name] = elem.quantity;
+        while (!needed.empty()) {
+            for (auto neededElem = needed.begin(); neededElem!=needed.end(); ++neededElem)
+            {
+//                for (auto& [k, v]: needed) std::cout<<"["<<v<<","<<k<<"] "; std::cout<<" ="<<res<<"\n";
+                Elem curr = {neededElem->first, neededElem->second};
+
+                if (curr.name == "ORE") {
+                    res += curr.quantity;
+                    needed.erase(neededElem);
+                    if (needed.empty())
+                        return res;
+                    neededElem = needed.begin();
+                }
+                else if (inDegree[curr.name] == 0) {
+                    //decompose
+                    needed.erase(neededElem);
+//                    std::cout << "decomposing " << curr.quantity << " of " << curr.name << ": ";
+                    auto[ingredients, qty] = reactions[curr.name];
+                    for (auto& ingredient: ingredients) {
+                        inDegree[ingredient.name]--;
+
+                        Quan times = std::ceil((long double)(curr.quantity) / qty);
+//                        std::cout << times <<"*"<< ingredient.quantity << "*" << ingredient.name << " ";
+                        if (needed.count(ingredient.name))
+                            needed[ingredient.name] += times * ingredient.quantity;
+                        else
+                            needed.insert({ingredient.name, times * ingredient.quantity});
+                    }
+                    neededElem = needed.begin();
+//                    std::cout << "\n";
+                }
+            }
+        }
+        return res;
     }
 
 public:
@@ -60,31 +79,41 @@ public:
     auto run(const std::string& inFileName)
     {
         std::ifstream inFile(inFileName);
-        std::vector<Moon> moons;
-        for ( int x, y, z; inFile>>x>>y>>z; moons.push_back({x,y,z}));
-        auto stMoons = moons;
-
-        for (auto& x: moons) std::cout<<"\t"<<x.x<<" "<<x.y<<" "<<x.z<<"       "<<x.xVel<<" "<<x.yVel<<" "<<x.zVel<<"\n";
-
-        for (long long t = 1; ; ++t)
+        for (std::vector<Elem> left; inFile.good(); )
         {
-            for (int i = 0; i < moons.size(); ++i)
-                for (int j = i+1; j < moons.size(); ++j)
-                    gravity(moons[i], moons[j]);
-
-            for (auto& x: moons)
-                velocity(x);
-
-            if (t%10'000'000==0) {
-                std::cout << "time " << t << "\n";
-                for (auto& x: moons)
-                    std::cout << "\t" << x.x << " " << x.y << " " << x.z << "       " << x.xVel << " " << x.yVel << " "
-                              << x.zVel << "\n";
+            Elem curr;
+            inFile>>curr.quantity>>curr.name;
+            if (curr.name.back() == ',')
+            {
+                curr.name.pop_back();
+                left.push_back(curr);
             }
-            if (moons == stMoons) { std::cout<<"after "<<t<<" steps\n"; break;}
-        }
+            else
+            {
+                left.push_back(curr);
+                std::string arrow;
+                inFile>>arrow>>curr.quantity>>curr.name;
+                reactions[curr.name] = std::make_pair(left, curr.quantity);
 
-        return 0;
+                for (auto& x: left)
+                    inDegree[x.name]++;
+                left.clear();
+            }
+        }
+        starting = inDegree;
+
+        int qu;
+        for (qu = 2267480; ; ++qu) {
+            Quan rerere = oreneeded({"FUEL", qu});
+            std::cout<<qu<<" ";
+            std::cout<<rerere;
+            std::cout<<"\n";
+            if (rerere > 1'000'000'000'000) {
+                std::cout << "YEAH: qu=" << qu << "\n";
+                break;
+            }
+        }
+        return qu;
     }
 
 public:
